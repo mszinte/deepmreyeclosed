@@ -17,8 +17,6 @@ function my_key = keyConfig(const)
 KbName('UnifyKeyNames');
 
 my_key.mri_trVal = 't';         % mri trigger letter
-my_key.helpVal = 'a';
-my_key.otherVal = 'l';
 my_key.right1Val = 'b';         % right button 
 my_key.escapeVal = 'escape';    % escape button
 my_key.spaceVal = 'space';      % space button
@@ -53,13 +51,19 @@ if const.scanner == 1 && ~const.scannerTest
     my_key.button_press_val = 1;
     
     % button press settings
-    my_key.port_button_help = 'port0/line0'; my_key.idx_button_help = 1;
-    my_key.port_button_other = 'port0/line1'; my_key.idx_button_other = 2;   
-    my_key.port_button_right1 = 'port0/line3'; my_key.idx_button_right1 = 3;
+    my_key.port_button_left1 = 'port0/line0'; my_key.idx_button_left1 = 1;
+    my_key.port_button_left2 = 'port0/line1'; my_key.idx_button_left2 = 2;
+    my_key.port_button_left3 = 'port0/line2'; my_key.idx_button_left3 = 3;    
     if ~isempty(my_key.port_button_left1); my_key.channel_button_left1 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_left1,my_key.ni_measurement_type); end
     if ~isempty(my_key.port_button_left2); my_key.channel_button_left2 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_left2,my_key.ni_measurement_type); end
+    if ~isempty(my_key.port_button_left3); my_key.channel_button_left3 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_left3,my_key.ni_measurement_type); end
     
-   
+    my_key.port_button_right1 = 'port0/line3'; my_key.idx_button_right1 = 4;
+    my_key.port_button_right2 = 'port0/line4'; my_key.idx_button_right2 = 5;
+    my_key.port_button_right3 = 'port0/line5'; my_key.idx_button_right3 = 6;   
+    if ~isempty(my_key.port_button_right1); my_key.channel_button_right1 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_right1,my_key.ni_measurement_type); end
+    if ~isempty(my_key.port_button_right2); my_key.channel_button_right2 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_right2,my_key.ni_measurement_type); end
+    if ~isempty(my_key.port_button_right3); my_key.channel_button_right3 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_right3,my_key.ni_measurement_type); end
     
     % MRI trigger settings
     fprintf(1,'\n\n\tDon''t forget to put MRI trigger in "Toggle" mode\n');
@@ -75,7 +79,7 @@ if const.scanner == 1 && ~const.scannerTest
         my_key.ni_session1.inputSingleScan];
     
 else
-    my_key.first_val = [0, 0, 0, 0, 0, 0];  %maybe wont even need that, not gathering behavioural responses rn
+    my_key.first_val = [0, 0, 0, 0, 0, 0, 0];
 end
 
 end

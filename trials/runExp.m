@@ -169,11 +169,7 @@ for trial = 1:const.nb_trials
 end
 
 % End messages
-if const.runNum == const.run_total
-    instructionsIm(scr,const,my_key,'End',1);  %show end screen image
-else
-    instructionsIm(scr,const,my_key,'End_block',1);  %show end block screen image
-end
+instructionsIm(scr,const,my_key,'End',1);  %show end screen image
 
 % Save all config at the end of the block (overwrite start made at start)
 config.scr = scr; 

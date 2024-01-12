@@ -56,8 +56,13 @@ else
 end
 
 % Define task
-const.task = const.expName;
-fprintf(1,'\n\tTask: %s\n',const.task);
+fprintf(1,'\n\tTask (1: calibration, 2: eyes open; 3: eyes partly closed; 4: closed eyes: %s\n',const.task_num);
+switch const.task_num
+    case 1; const.task = 'task-calib';
+    case 2; const.task = 'task-triangle_eyes_open';
+    case 3; const.task = 'task-triangle_eyes_blink';
+    case 4; const.task = 'task-triangle_eyes_closed'; 
+end
 
 % Define recording eye
 const.recEye = 1;

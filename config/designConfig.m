@@ -20,7 +20,6 @@ function expDes = designConfig(const)
 expDes.oneV = input(sprintf('\n\tTASK: '));
 expDes.nb_var1 = length(const.task_lst); %number of levels in task variable
 
-
 % Experimental loop
 trialMat = zeros(const.nb_trials, expDes.nb_var1);
 ii = 0;
