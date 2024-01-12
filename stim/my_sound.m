@@ -16,36 +16,15 @@ function my_sound(t, aud)
 % ----------------------------------------------------------------------
 
 if t == 1
-    stimFreq = [4000;0;3000];
-    stimDur = [0.1;0.01;0.1];
+    stimFreq = 2000;
+    stimDur = 0.1;
 elseif t == 2
-    stimFreq = 3000;
-    stimDur = 0.10;
+    stimFreq = 2500;
+    stimDur = 0.1;
 elseif t == 3
-    stimFreq = 4000;
-    stimDur = 0.2;
+    stimFreq = 3000;
+    stimDur = 0.1;
 elseif t == 4
-    stimFreq = [400;600];
-    stimDur = [0.15;0.12];
-elseif t == 5
-    stimFreq = 5000;
-    stimDur = 0.2;
-elseif t == 6
-    stimFreq = [5000;5000;5000];
-    stimDur = [0.2;0.2;0.2];
-elseif t == 7
-    stimFreq = 5000;
-    stimDur = 0.01;
-elseif t == 8
-    stimFreq = [500;300];
-    stimDur = [0.15;0.2];
-elseif t == 9
-    stimFreq = [3000;2000;2000];
-    stimDur = [0.2;0.2;0.2];
-elseif t == 10
-    stimFreq = [3000;4000;4000];
-    stimDur = [0.2;0.2;0.2];
-elseif t == 11
     stimFreq = [900;200];
     stimDur = [0.2;0.2];    
 end

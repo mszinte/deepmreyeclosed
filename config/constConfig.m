@@ -33,16 +33,11 @@ const.green = [0.2, 0.7, 0.2];
 const.fixation_color = const.dark_gray;
 const.background_color = const.gray; 
 
-
 % Time parameters
 const.TR_sec = 1.2;                                                         % MRI time repetition in seconds
 const.TR_frm = round(const.TR_sec/scr.frame_duration);                      % MRI time repetition in seconds in screen frames
 
 %new stimulus time parameters
-const.iti_dur_TR = 1;                                                       % Inter-trial interval duration in scanner TR
-const.iti_dur_sec = const.iti_dur_TR * const.TR_sec;                        % Inter-trial interval duration in seconds
-const.iti_dur_frm = round(const.iti_dur_sec/scr.frame_duration);            % Inter-trial interval duration in screen frames
-
 const.fixtask.dur_TR = 1;                                                       % Fixation task stimulus duration in scanner TR
 const.fixtask.dur_sec = const.fixtask.dur_TR * const.TR_sec;                    % Fixation task stimulus duration in seconds, should be 1.2
 const.fixtask.dur_frm = round(const.fixtask.dur_sec /scr.frame_duration);       % Total stimulus duration in screen frames
@@ -51,7 +46,7 @@ const.pursuit.dur_TR = 1;                                                       
 const.pursuit.dur_sec = const.pursuit.dur_TR * const.TR_sec;                    % Smooth pursuit task stimulus duration in seconds, should be 1.2
 const.pursuit.dur_frm = round(const.pursuit.dur_sec /scr.frame_duration);       % Total stimulus duration in screen frames
 
-const.picTask.dur_TR = 1;                                                       % Picture free viewing task stimulus duration in scanner TR
+const.picTask.dur_TR = 3;                                                       % Picture free viewing task stimulus duration in scanner TR
 const.picTask.dur_sec = const.picTask.dur_TR * const.TR_sec;                    % Picture free viewing task stimulus duration in seconds, should be 1.2
 const.picTask.dur_frm = round(const.picTask.dur_sec /scr.frame_duration);       % Total stimulus duration in screen frames
 
@@ -67,35 +62,30 @@ const.triang_closed.dur_frm = round(const.triang_closed.dur_sec /scr.frame_durat
 
 %const.TRs = (const.fixtask.dur_TR+const.pursuit.dur_TR+const.picTask.dur_TR+const.triang.dur_TR)*2; % TR per trials
     
-
 % Stim parameters
 [const.ppd] = vaDeg2pix(1, scr); % one pixel per dva
 const.dpp = 1/const.ppd;         %degrees per pixel
 
-
-
-
 %Fixation Task (Calib Matthias)
-const.fixtask.win_sz                                 =    35; %in degrees of visual angle 
+const.fixtask.win_sz                                 =    18; %in degrees of visual angle 
 [const.fixtask.win_sz_px, const.fixtask.win_sz_py]   =    vaDeg2pix(const.fixtask.win_sz, scr);  %will return x y pixels
-const.fixtask.n_locs                                 =    [3 3]; % n fixation locations [horizontal, vertical] [10 10]
+const.fixtask.n_locs                                 =    [5 5]; % n fixation locations [horizontal, vertical] [10 10]
 const                                                =    getFixLocations(const,scr); %create coordinates for fixation locations
 
 %Smooth Pursuit Task (Calib Matthias) 
 const.pursuit.win_sz_px      =    const.fixtask.win_sz_px;
 const.pursuit.win_sz_py      =    const.fixtask.win_sz_py;
 const.pursuit.angles         =    deg2rad(0:35.8889:359);%deg2rad(0:15:359); % tested directions
-const.pursuit.mov_amp        =    [4 6 8]; % movement amplitudes in visual angle
+const.pursuit.mov_amp        =    [2 4 6]; % movement amplitudes in visual angle
 valid = 0; while ~valid
     [const, valid]           =    getFixLocations_pursuit(const,scr,valid); end % create trajectories for smoooth pursuit
 
 
 %Picture Free Viewing Task (Calib Matthias) 
-const.picTask.pic_sz         =   10; 
+const.picTask.pic_sz         =   10;
 const.picTask.pic_sz_px      =   vaDeg2pix(const.picTask.pic_sz, scr);
-const.picTask.path2pics      =   fullfile('.\others\images\'); 
-const.picTask.n_pics         =   3; % how many of the pictures in the folder should be shown (random selection)? (10)
-
+const.picTask.path2pics      =   fullfile('./stim/images'); 
+const.picTask.n_pics         =   10; % how many of the pictures in the folder should be shown (random selection)? (10)
 
 %Traingle eyes open
 const.instructionTexts.triang = {'Triangle Up', 'Triangle Right', 'Triangle Down', 'Triangle Left'};
@@ -144,8 +134,6 @@ const.triang.coords_all = [
     scr.x_mid, scr.y_mid;scr.x_mid, scr.y_mid; scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
     scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2;scr.x_mid, scr.y_mid
     ];
-
-
 
 % Trial settings
 if const.mkVideo

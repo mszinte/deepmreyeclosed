@@ -17,7 +17,7 @@ function instructionsIm(scr, const, my_key, nameImage, exitFlag)
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
 % ----------------------------------------------------------------------
 
-dirImageFile = 'instructions/image_eng/';
+dirImageFile = 'instructions/image/';
 dirImage = [dirImageFile,nameImage,'.png'];
 [imageToDraw,~,alpha] = imread(dirImage);
 imageToDraw=(imageToDraw.*(repmat(alpha,1,1,3)./255)) ...

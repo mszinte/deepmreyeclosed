@@ -302,70 +302,69 @@ end
 instructionsIm(scr,const,my_key,'End_block',1); %show instructions
 
 
-    % Check keyboard
-    keyPressed = 0;
-    keyCode = zeros(1,my_key.keyCodeNum);
-    for keyb = 1:size(my_key.keyboard_idx,2)
-        [keyP, keyC] = KbQueueCheck(my_key.keyboard_idx(keyb));
-        keyPressed = keyPressed + keyP;
-        keyCode = keyCode + keyC;
-    end
+% Check keyboard
+keyPressed = 0;
+keyCode = zeros(1,my_key.keyCodeNum);
+for keyb = 1:size(my_key.keyboard_idx,2)
+    [keyP, keyC] = KbQueueCheck(my_key.keyboard_idx(keyb));
+    keyPressed = keyPressed + keyP;
+    keyCode = keyCode + keyC;
+end
 
-    if const.scanner == 1 && ~const.scannerTest
-        input_return = [my_key.ni_session2.inputSingleScan, ...
-            my_key.ni_session1.inputSingleScan];
-        
-        % button press trigger
-        if input_return(my_key.idx_button_left1) == ...
-                my_key.button_press_val
-            keyPressed = 1;
-            keyCode(my_key.left1) = 1;
-        elseif input_return(my_key.idx_button_left2) == ... 
-                my_key.button_press_val
-            keyPressed = 1;
-            keyCode(my_key.left2) = 1;
-        elseif input_return(my_key.idx_button_left3) == ...
-                my_key.button_press_val
-            keyPressed = 1;
-            keyCode(my_key.left3) = 1;
-        elseif input_return(my_key.idx_button_right1) == ...
-                my_key.button_press_val
-            keyPressed = 1;
-            keyCode(my_key.right1) = 1;
-        elseif input_return(my_key.idx_button_right2) == ...
-                my_key.button_press_val
-            keyPressed = 1;
-            keyCode(my_key.right2) = 1;
-        elseif input_return(my_key.idx_button_right3) == ...
-                my_key.button_press_val
-            keyPressed = 1;
-            keyCode(my_key.right3) = 1;
-        end
-
-        % mri trigger
-        if input_return(my_key.idx_mri_bands) == ~expDes.mri_band_val
-            keyPressed = 1;
-            keyCode(my_key.mri_tr) = 1;
-            expDes.mri_band_val = ~expDes.mri_band_val;
-            mri_band_val = input_return(my_key.idx_mri_bands);
-        end
+if const.scanner == 1 && ~const.scannerTest
+    input_return = [my_key.ni_session2.inputSingleScan, ...
+        my_key.ni_session1.inputSingleScan];
+    
+    % button press trigger
+    if input_return(my_key.idx_button_left1) == ...
+            my_key.button_press_val
+        keyPressed = 1;
+        keyCode(my_key.left1) = 1;
+    elseif input_return(my_key.idx_button_left2) == ...
+            my_key.button_press_val
+        keyPressed = 1;
+        keyCode(my_key.left2) = 1;
+    elseif input_return(my_key.idx_button_left3) == ...
+            my_key.button_press_val
+        keyPressed = 1;
+        keyCode(my_key.left3) = 1;
+    elseif input_return(my_key.idx_button_right1) == ...
+            my_key.button_press_val
+        keyPressed = 1;
+        keyCode(my_key.right1) = 1;
+    elseif input_return(my_key.idx_button_right2) == ...
+            my_key.button_press_val
+        keyPressed = 1;
+        keyCode(my_key.right2) = 1;
+    elseif input_return(my_key.idx_button_right3) == ...
+            my_key.button_press_val
+        keyPressed = 1;
+        keyCode(my_key.right3) = 1;
     end
+    
+    % mri trigger
+    if input_return(my_key.idx_mri_bands) == ~expDes.mri_band_val
+        keyPressed = 1;
+        keyCode(my_key.mri_tr) = 1;
+        expDes.mri_band_val = ~expDes.mri_band_val;
+        mri_band_val = input_return(my_key.idx_mri_bands);
+    end
+end
 % Deal with responses
-    if keyPressed
-        if keyCode(my_key.mri_tr) 
-            % MRI triggers
-            log_txt = sprintf('trial %i mri_trigger val = %i',t, ...
-                mri_band_val);
-            if const.tracker; Eyelink('message','%s',log_txt); end
-        elseif keyCode(my_key.escape) 
-            % Escape button
-            if const.expStart == 0; overDone(const, my_key);end
-        end
+if keyPressed
+    if keyCode(my_key.mri_tr)
+        % MRI triggers
+        log_txt = sprintf('trial %i mri_trigger val = %i',t, ...
+            mri_band_val);
+        if const.tracker; Eyelink('message','%s',log_txt); end
+    elseif keyCode(my_key.escape)
+        % Escape button
+        if const.expStart == 0; overDone(const, my_key);end
     end
+end
 
-expDes.expMat(t, 1) = trial_on;
-
-expDes.expMat(t, 2) = vbl - trial_on;
+expDes.expMat(t, 1) = 0; % to FIX
+expDes.expMat(t, 2) = 0;
 
 % Write in log/edf
 if const.tracker
@@ -377,12 +376,12 @@ end
 %    expDes.expMat(t, 9) = 0;
 %    expDes.expMat(t, 10) = 0;
 %end
-    
+
 %if resp_int2 == 0
 %    expDes.expMat(t, 11) = 0;
 %    expDes.expMat(t, 12) = 0;
-%end    
-    
+%end
+
 %if resp_conf == 0
 %    expDes.expMat(t, 13) = 0;
 %    expDes.expMat(t, 14) = 0;
