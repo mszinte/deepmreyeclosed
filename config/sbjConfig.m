@@ -15,8 +15,12 @@ function const = sbjConfig(const)
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
 % ----------------------------------------------------------------------
 
-% Define participant
+% Define task
+const.task = const.expName;
+    
 if const.expStart
+    
+    % Define participant
     const.sjctNum = input(sprintf('\n\tParticipant number: '));
     if isempty(const.sjctNum)
         error('Incorrect participant number');
@@ -26,51 +30,42 @@ if const.expStart
     else
         const.sjct = sprintf('sub-0%i',const.sjctNum);
     end
-end
 
-% Define session
-const.sesNum = input(sprintf('\n\tSession number: '));
-if const.sesNum > 9
-    const.session = sprintf('ses-%i',const.sesNum);
+    % Define session
+    const.sesNum = input(sprintf('\n\tSession number: '));
+    if const.sesNum > 9
+        const.session = sprintf('ses-%i',const.sesNum);
+    else
+        const.session = sprintf('ses-0%i',const.sesNum);
+    end
+
+    % Define run
+    const.runNum = input(sprintf('\n\tRun number: '));
+    if isempty(const.runNum)
+        error('Incorrect run number');
+    end
+
+    if const.runNum > 9
+        const.run = sprintf('run-%i',const.runNum);
+    else
+        const.run = sprintf('run-0%i',const.runNum);
+    end
+
+    % Define main modality
+    if const.scanner == 1
+        const.modality = 'func';
+    else
+        const.modality = 'beh';
+    end
+
+    % Define recording eye
+    const.recEye = 1;
+
 else
-    const.session = sprintf('ses-0%i',const.sesNum);
-end
-
-% Define run
-const.runNum = input(sprintf('\n\tRun number: '));
-if isempty(const.runNum)
-    error('Incorrect run number');
-end
-
-if const.runNum > 9
-    const.run = sprintf('run-%i',const.runNum);
-else
-    const.run = sprintf('run-0%i',const.runNum);
-end
-
-% Define main modality
-if const.scanner == 1
-    const.modality = 'func';
-else
-    const.modality = 'beh';
-end
-
-% Define task
-fprintf(1,'\n\tTask (1: calibration, 2: eyes open; 3: eyes partly closed; 4: closed eyes: %s\n',const.task_num);
-switch const.task_num
-    case 1; const.task = 'task-calib';
-    case 2; const.task = 'task-triangle_eyes_open';
-    case 3; const.task = 'task-triangle_eyes_blink';
-    case 4; const.task = 'task-triangle_eyes_closed'; 
-end
-
-% Define recording eye
-const.recEye = 1;
-
-% Debug mode
-if ~const.expStart
     const.sjct = 'sub-0X';
+    const.sesNum = 1;
     const.session = 'ses-0X';
+    const.runNum = 1;
     const.run = 'run-0X';
     const.modality = 'beh';
     const.recEye = 1;

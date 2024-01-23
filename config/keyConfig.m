@@ -17,13 +17,16 @@ function my_key = keyConfig(const)
 KbName('UnifyKeyNames');
 
 my_key.mri_trVal = 't';         % mri trigger letter
-my_key.right1Val = 'b';         % right button 
+my_key.left1Val = 'r';          % left button 1 - not used
+my_key.left2Val = 'f';          % left button 2 - not used
+my_key.left3Val = 'v';          % left button 3 - not used
+my_key.right1Val = 'i';         % right button 1 - pass instructions
+my_key.right2Val = 'j';         % right button 2 - not used
+my_key.right3Val = 'n';         % right button 3 - not used
 my_key.escapeVal = 'escape';    % escape button
 my_key.spaceVal = 'space';      % space button
 
 my_key.mri_tr = KbName(my_key.mri_trVal);
-my_key.help = KbName(my_key.helpVal);
-my_key.other = KbName(my_key.otherVal);
 my_key.escape = KbName(my_key.escapeVal);
 my_key.right1 = KbName(my_key.right1Val);
 my_key.space = KbName(my_key.spaceVal);
