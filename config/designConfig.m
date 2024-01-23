@@ -42,6 +42,8 @@ expDes.nb_var2 = length(expDes.twoV);
 % Experimental loop
 expDes.nb_var = 2;
 
+triang_location_order = [3,5,4,3,3,4,1,3,3,1,2,3,3,2,5,3];
+
 % Triangle eyes open point location experimental loop
 ii = 0;
 trialMat_triang_open = zeros(const.nb_trials_triang_open, expDes.nb_var+1)*nan;
@@ -51,13 +53,14 @@ for rep = 1:const.nb_repeat_triang_open
             ii = ii + 1;
             trialMat_triang_open(ii, 1) = 2;
             trialMat_triang_open(ii, 2) = var1;
-            trialMat_triang_open(ii, 3) = nan; %filled later
+            trialMat_triang_open(ii, 3) = nan; 
         end
     end
 end
 
 trialMat_triang_open = [1, nan, nan; % add intertrial interval
-                        trialMat_triang_open];    
+                        trialMat_triang_open];  
+trialMat_triang_open(2:17,3) = triang_location_order;
 
 % Triangle eyes open point location experimental loop
 ii = 0;
@@ -76,6 +79,7 @@ end
 trialMat_triang_part = [1, nan, nan; % add intertrial interval
                         trialMat_triang_part];
 
+trialMat_triang_part(2:17,3) = triang_location_order;
 
 % Triangle eyes closed experimental loop
 ii = 0;

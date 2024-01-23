@@ -1,4 +1,4 @@
-function const = runExp(scr, const, expDes, my_key, eyetrack)
+function const = runExp(scr, const, expDes, my_key, eyetrack, aud)
 % ----------------------------------------------------------------------
 % const = runExp(scr, const, expDes, my_key, eyetrack)
 % ----------------------------------------------------------------------
@@ -109,7 +109,7 @@ if const.tracker
 end
 
 % Trial loop
-expDes = runTrials(scr, const, expDes, my_key);
+expDes = runTrials(scr, const, expDes, my_key, aud);
     
 %tsv file
 head_txt = {'onset', 'duration', 'run_number', 'trial_number', ...
@@ -120,7 +120,7 @@ head_txt = {'onset', 'duration', 'run_number', 'trial_number', ...
 % 04 : trial number
 % 05 : task
 % 06 : triangle rotation number
-% 07 : triangle fixation position
+% 07 : triangle fixation location
 
 for head_num = 1:length(head_txt)
     behav_txt_head{head_num} = head_txt{head_num};
@@ -169,6 +169,7 @@ config.const = const;
 config.expDes = expDes;
 config.my_key = my_key;
 config.eyetrack = eyetrack;
+config.aud = aud;
 save(const.mat_file,'config');
 
 % Stop Eyetracking

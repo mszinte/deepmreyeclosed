@@ -10,7 +10,7 @@
 
 % TODO (Sina)
 % ----------- 
-% do video
+% finish deepmryeclosed
 % check in testing room
 % see with eye tracker 
 % analyse data of eye tracker
@@ -21,9 +21,9 @@ Screen('CloseAll'); clear all; clear mex; clear functions; close all; ...
     home; AssertOpenGL;
 
 % General settings
-const.expName = 'DeepMReyeClosed';       % experiment name
+const.expName = 'DeepMReyeClosed';      % experiment name
 const.expStart = 0;                     % Start of a recording (0 = NO, 1 = YES)
-const.checkTrial = 0;                   % Print trial conditions (0 = NO, 1 = YES)
+const.checkTrial = 1;                   % Print trial conditions (0 = NO, 1 = YES)
 const.mkVideo = 0;                      % Make a video (0 = NO, 1 = YES)
 
 % External controls
@@ -34,7 +34,7 @@ const.scannerTest = 0;                  % fake scanner trigger (0 = NO, 1 = YES)
 const.training = 0;                     % training session (0 = NO, 1 = YES)
 
 % Desired screen setting
-const.desiredFD = 60;                  % Desired refresh rate
+const.desiredFD = 60;                   % Desired refresh rate
 const.desiredRes = [1920, 1080];        % Desired resolution
 
 % Path
