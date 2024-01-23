@@ -22,6 +22,8 @@ const = dirSaveFile(const);
 % Screen configurations
 scr = scrConfig(const);
 
+aud = audioConfig;
+
 % Triggers and button configurations
 my_key = keyConfig(const);
 
@@ -38,6 +40,16 @@ expDes = designConfig(scr, const);
     GL_ONE_MINUS_SRC_ALPHA);
 priorityLevel = MaxPriority(scr.main);Priority(priorityLevel);
 
+% Open sound pointer
+
+aud.master_main = PsychPortAudio('Open', [], aud.master_mode,...
+    aud.master_reqlatclass, [], aud.master_nChannels);
+PsychPortAudio('Start', aud.master_main, aud.master_rep, ...
+    aud.master_when, aud.master_waitforstart);
+PsychPortAudio('Volume', aud.master_main, aud.master_globalVol);
+aud.stim_handle = PsychPortAudio('OpenSlave', aud.master_main, ...
+    aud.slaveStim_mode);
+
 % Initialize eye tracker
 if const.tracker
     eyetrack = initEyeLink(scr, const);
@@ -46,7 +58,7 @@ else
 end
 
 % Trial runner
-const = runExp(scr, const, expDes, my_key, eyetrack);
+const = runExp(scr, const, expDes, my_key, eyetrack,aud);
 
 % End
 overDone(const, my_key);

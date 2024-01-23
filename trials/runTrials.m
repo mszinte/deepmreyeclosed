@@ -1,4 +1,4 @@
-function expDes = runTrials(scr, const, expDes, my_key)
+function expDes = runTrials(scr, const, expDes, my_key, aud)
 % ----------------------------------------------------------------------
 % expDes = runTrials(scr, const, expDes, my_key)
 % ----------------------------------------------------------------------
@@ -28,8 +28,9 @@ for t = 1:const.nb_trials
     
     % Compute and simplify var and rand
     task = expDes.expMat(t, 5);
-    var1 = expDes.expMat(t, 6);
-    var2 = expDes.expMat(t, 7);
+    var1 = expDes.expMat(t, 6); 
+    var2 = expDes.expMat(t,7);
+    
    
 
     % Check trial
@@ -37,7 +38,7 @@ for t = 1:const.nb_trials
         fprintf(1,'\n\n\t=================== TRIAL %3.0f ====================\n',t);
         fprintf(1,'\n\tTask =             \t%s', const.task_txt{task});
         if ~isnan(var1); fprintf(1,'\n\tTriangle rotation =\t%s', ...
-                const.task_txttxt{var1}); end
+                const.triangle_rotation_txt{var1}); end
         if ~isnan(var2); fprintf(1,'\n\tFixation position =\t%s', ...
                 const.triangle_position_txt{var2}); end
     end
@@ -70,14 +71,22 @@ for t = 1:const.nb_trials
 
     % Compute coordinates triangle
     if task == 2 
-        triang_x = [];
-        triang_y = [];
+        triang_coord = [const.triang_coords_up_left;const.triang_coords_up_right;...
+                        const.triang_coords_middle; const.triang_coords_down_left;...
+                        const.triang_coords_down_right];
+
+        triang_x = triang_coord(var2,1); 
+        triang_y = triang_coord(var2,2);
     end 
 
     % Compute coordinates triangle
     if task == 3
-        triang_x = [];
-        triang_y = [];
+        triang_coord = [const.triang_coords_up_left;const.triang_coords_up_right;...
+                        const.triang_coords_middle; const.triang_coords_down_left;...
+                        const.triang_coords_down_right];
+
+        triang_x = triang_coord(var2,1); 
+        triang_y = triang_coord(var2,2);
     end
    
     
@@ -153,7 +162,6 @@ for t = 1:const.nb_trials
         % Triangle eyes open
         if task == 2
             if nbf >= triang_open_onset_nbf && nbf <= triang_open_offset_nbf
-                %play sound
                 drawBullsEye(scr, const, triang_x, triang_y);
             end
         end
@@ -161,7 +169,6 @@ for t = 1:const.nb_trials
         % Triangle eyes partly closed
         if task == 3
             if nbf >= triang_part_onset_nbf && nbf <= triang_part_offset_nbf
-                %play sound
                 drawBullsEye(scr, const, triang_x, triang_y);
             end
         end
@@ -169,7 +176,7 @@ for t = 1:const.nb_trials
         % Freeview task
         if task == 4
             if nbf >= triang_closed_onset_nbf && nbf <= triang_closed_offset_nbf
-                %play sound
+                
             end
                      
         end
@@ -199,6 +206,7 @@ for t = 1:const.nb_trials
         
         % flip screen
         vbl = Screen('Flip', scr.main);
+
         
         % Save trials times
         if task == 1
@@ -211,30 +219,30 @@ for t = 1:const.nb_trials
                 if const.tracker; Eyelink('message','%s',log_txt); end
             end
         elseif task == 2
-            if nbf == fix_onset_nbf
+            if nbf == triang_open_onset_nbf
                 trial_on = vbl;
-                log_txt = sprintf('fixation %i onset at %f', t, vbl);
+                log_txt = sprintf('triangle open %i onset at %f', t, vbl);
                 if const.tracker; Eyelink('message','%s',log_txt); end
-            elseif nbf == fix_offset_nbf
-                log_txt = sprintf('fixation %i offset at %f', t, vbl);
+            elseif nbf == triang_open_offset_nbf
+                log_txt = sprintf('triangle open %i offset at %f', t, vbl);
                 if const.tracker; Eyelink('message','%s',log_txt); end
             end
         elseif task == 3
-            if nbf == pursuit_onset_nbf
+            if nbf == triang_part_onset_nbf
                 trial_on = vbl;
-                log_txt = sprintf('pursuit %i onset at %f', t, vbl);
+                log_txt = sprintf('triangle part open %i onset at %f', t, vbl);
                 if const.tracker; Eyelink('message','%s',log_txt); end
-            elseif nbf == pursuit_offset_nbf
-                log_txt = sprintf('pursuit %i offset at %f', t, vbl);
+            elseif nbf == triang_part_offset_nbf
+                log_txt = sprintf('triangle part open %i offset at %f', t, vbl);
                 if const.tracker; Eyelink('message','%s',log_txt); end
             end
         elseif task == 4
-            if nbf == freeview_onset_nbf
+            if nbf == triang_closed_onset_nbf
                 trial_on = vbl;
-                log_txt = sprintf('freeview %i onset at %f', t, vbl);
+                log_txt = sprintf('triangle closed %i onset at %f', t, vbl);
                 if const.tracker; Eyelink('message','%s',log_txt); end
-            elseif nbf == freeview_offset_nbf
-                log_txt = sprintf('freeview %i offset at %f', t, vbl);
+            elseif nbf == triang_closed_offset_nbf
+                log_txt = sprintf('triangle closed %i offset at %f', t, vbl);
                 if const.tracker; Eyelink('message','%s',log_txt); end
             end
         end

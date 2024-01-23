@@ -60,45 +60,46 @@ const.triang_size    = 14;
 const.triang_size_px = vaDeg2pix(const.triang_size, scr);
 
 const.triang_coords_middle = [scr.x_mid, scr.y_mid];
-const.triang_coords_down_right = [scr.x_mid + const.triang_size_px /2, scr.y_mid + const.triang_size_px /2]; 
-const.triang_coords_down_left = [scr.x_mid - const.triang_size_px /2, scr.y_mid + const.triang_size_px /2];
-const.triang_coords_up_right [cr.x_mid + const.triang_size_px /2, scr.y_mid - const.triang_size_px /2];
-const.triang_coords_up_left = [scr.x_mid - const.triang_size_px /2, scr.y_mid - const.triang_size_px /2];
+const.triang_coords_down_right = [scr.x_mid + const.triang_size_px /2, scr.y_mid + const.triang_size_px /2 ]; 
+const.triang_coords_down_left = [scr.x_mid - const.triang_size_px /2, scr.y_mid + const.triang_size_px /2 ];
+const.triang_coords_up_right = [scr.x_mid + const.triang_size_px /2, scr.y_mid - const.triang_size_px /2 ];
+const.triang_coords_up_left = [scr.x_mid - const.triang_size_px /2, scr.y_mid - const.triang_size_px /2 ];
 
-const.triang.coords = [
-    scr.x_mid, scr.y_mid;                                                     % middle
-    scr.x_mid + const.triang_size_px /2, scr.y_mid + const.triang_size_px /2; % down_right
-    scr.x_mid - const.triang_size_px /2, scr.y_mid + const.triang_size_px /2; % down_left
-    scr.x_mid, scr.y_mid;                                                     % middle
-    scr.x_mid, scr.y_mid;                                                     % middle
-    scr.x_mid - const.triang_size_px /2, scr.y_mid + const.triang_size_px /2; % down_left
-    scr.x_mid - const.triang_size_px /2, scr.y_mid - const.triang_size_px /2; % up_left
-    scr.x_mid, scr.y_mid;                                                     % middle
-    scr.x_mid, scr.y_mid;                                                     % middle
-    scr.x_mid - const.triang_size_px /2, scr.y_mid - const.triang_size_px /2; % up_left
-    scr.x_mid + const.triang_size_px /2, scr.y_mid - const.triang_size_px /2; % up_right
-    scr.x_mid, scr.y_mid;                                                     % middle
-    scr.x_mid, scr.y_mid;                                                     % middle
-    scr.x_mid + const.triang_size_px /2, scr.y_mid - const.triang_size_px /2; % up_right
-    scr.x_mid + const.triang_size_px /2, scr.y_mid + const.triang_size_px /2; % down_right
-    scr.x_mid, scr.y_mid;                                                     % middle
-    ];
+
+const.triang_coords_all = [const.triang_coords_middle;
+                           const.triang_coords_down_right;
+                           const.triang_coords_down_left;
+                           const.triang_coords_middle;
+                           const.triang_coords_middle;
+                           const.triang_coords_down_left;
+                           const.triang_coords_up_left;
+                           const.triang_coords_middle;
+                           const.triang_coords_middle;
+                           const.triang_coords_up_left;
+                           const.triang_coords_up_right;
+                           const.triang_coords_middle;
+                           const.triang_coords_middle;
+                           const.triang_coords_up_right;
+                           const.triang_coords_down_right;
+                           const.triang_coords_middle
+                           ]; 
+
 
 const.triangle_position_txt =  {'up_left', 'up_right', 'middle', 'down_left', 'down_right'};
 
-
+const.triangle_rotation_txt = {'up', 'right', 'down', 'left'};
 
 % Trial settings
 const.nb_repeat_triang_open = 1;
-const.nb_trials_triang_open = length(const.triang.coords) * const.nb_repeat_triang_open;
+const.nb_trials_triang_open = length(const.triang_coords_all) * const.nb_repeat_triang_open;
 const.TRs_triang_open = const.nb_trials_triang_open * const.triang_open_dur_TR;
 
 const.nb_repeat_triang_part = 1;
-const.nb_trials_triang_part = length(const.triang.coords) * const.nb_repeat_triang_part;
+const.nb_trials_triang_part = length(const.triang_coords_all) * const.nb_repeat_triang_part;
 const.TRs_triang_part = const.nb_trials_triang_part * const.triang_part_dur_TR;
 
 const.nb_repeat_triang_closed = 1;
-const.nb_trials_triang_closed = length(const.triang.coords) * const.nb_repeat_triang_closed;
+const.nb_trials_triang_closed = length(const.triang_coords_all) * const.nb_repeat_triang_closed;
 const.TRs_triang_closed = const.nb_trials_triang_closed* const.triang_closed_dur_TR;
 
 const.nb_trials_iti = 4; % 3 iti and final one
