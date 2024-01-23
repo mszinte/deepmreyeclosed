@@ -70,18 +70,14 @@ const.triang_coords_all = [const.triang_coords_middle;
                            const.triang_coords_down_right;
                            const.triang_coords_down_left;
                            const.triang_coords_middle;
-                           const.triang_coords_middle;
                            const.triang_coords_down_left;
                            const.triang_coords_up_left;
                            const.triang_coords_middle;
-                           const.triang_coords_middle;
                            const.triang_coords_up_left;
                            const.triang_coords_up_right;
                            const.triang_coords_middle;
-                           const.triang_coords_middle;
                            const.triang_coords_up_right;
                            const.triang_coords_down_right;
-                           const.triang_coords_middle
                            ]; 
 
 
