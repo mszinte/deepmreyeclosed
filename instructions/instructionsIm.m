@@ -20,8 +20,7 @@ function instructionsIm(scr, const, my_key, nameImage, exitFlag)
 dirImageFile = 'instructions/image/';
 dirImage = [dirImageFile,nameImage,'.png'];
 [imageToDraw,~,alpha] = imread(dirImage);
-imageToDraw=(imageToDraw.*(repmat(alpha,1,1,3)./255)) ...
-    -(const.background_color(1)*255);
+imageToDraw(:,:,4) = alpha;
 
 t_handle = Screen('MakeTexture', scr.main, imageToDraw);
 texrect = Screen('Rect', t_handle);
@@ -63,7 +62,7 @@ while ~push_button
     end
     
     if keyPressed
-        if keyCode(my_key.space) %|| keyCode(my_key.right1)
+        if keyCode(my_key.space) || keyCode(my_key.right1)
             push_button = 1;
         elseif keyCode(my_key.escape) && const.expStart == 0
             overDone(const, my_key)

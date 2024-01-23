@@ -1,4 +1,4 @@
-function const = runExp(scr, const, expDes, my_key, eyetrack, aud)
+function const = runExp(scr, const, expDes, my_key, eyetrack)
 % ----------------------------------------------------------------------
 % const = runExp(scr, const, expDes, my_key, eyetrack)
 % ----------------------------------------------------------------------
@@ -11,7 +11,6 @@ function const = runExp(scr, const, expDes, my_key, eyetrack, aud)
 % expDes : struct containg experimental design
 % my_key : structure containing keyboard configurations
 % eyetrack : structure containing eyetracking configurations
-% aud : structure containing audio configurations
 % ----------------------------------------------------------------------
 % Output(s):
 % const : struct containing constant configurations
@@ -21,8 +20,7 @@ function const = runExp(scr, const, expDes, my_key, eyetrack, aud)
 
 % Configuration of videos
 if const.mkVideo
-    const.vid_folder = sprintf('others/movie/%s_v1-%i_v2-%i_r1-%i_r2-%i', ...
-        const.task, expDes.oneV, expDes.oneR);
+    const.vid_folder = sprintf('others/movie/%s', const.task);
     if ~isfolder(const.vid_folder); mkdir(const.vid_folder); end
     const.movie_image_file = sprintf('%s/img', const.vid_folder);
     const.movie_file = sprintf('%s.mp4', const.vid_folder);
@@ -32,19 +30,12 @@ if const.mkVideo
 	const.vid_obj.Quality = 100;
 end
 
-% Special instruction for scanner
-scanTxt = '';
-if const.scanner && ~const.scannerTest
-    scanTxt = '_Scanner';
-end
-
 % Save all config at start of the block
-config.scr  = scr;
+config.scr = scr;
 config.const = const;
 config.expDes = expDes;
 config.my_key = my_key;
 config.eyetrack = eyetrack;
-config.aud = aud;
 save(const.mat_file,'config');
 
 % First mouse config
@@ -61,8 +52,7 @@ if const.tracker
     eyeLinkClearScreen(eyetrack.bgCol);
     eyeLinkDrawText(scr.x_mid, scr.y_mid, eyetrack.txtCol,...
         'CALIBRATION INSTRUCTION - PRESS SPACE');
-    instructionsIm(scr, const, my_key, ...
-        sprintf('Calibration%s', scanTxt), 0);
+    instructionsIm(scr, const, my_key, 'Calibration', 0);
     calibresult = EyelinkDoTrackerSetup(eyetrack);
     if calibresult == eyetrack.TERMINATE_KEY
         return
@@ -107,8 +97,7 @@ if const.tracker
     eyeLinkDrawText(scr.x_mid, scr.y_mid, eyetrack.txtCol, ...
         'TASK INSTRUCTIONS - PRESS SPACE')
 end
-instructionsIm(scr, const, my_key, ...
-    sprintf('Task_%s', num2str(expDes.expMat(1, 5))), 0);
+instructionsIm(scr, const, my_key, const.task, 0);
 for keyb = 1:size(my_key.keyboard_idx, 2)
     KbQueueFlush(my_key.keyboard_idx(keyb));
 end
@@ -119,16 +108,19 @@ if const.tracker
     drawTrialInfoEL(scr, const)
 end
 
-
-% Main trial loop
-for trial = 1:const.nb_trials
-    expDes.trial = trial;
-    expDes = runTrials(scr, const, expDes, my_key, aud);
-end
-
+% Trial loop
+expDes = runTrials(scr, const, expDes, my_key);
+    
 %tsv file
 head_txt = {'onset', 'duration', 'run_number', 'trial_number', ...
-    'task'};  
+            'task', 'triangle_rotation', 'fixation_location'};
+% 01 : onset
+% 02 : duration 
+% 03 : run number
+% 04 : trial number
+% 05 : task
+% 06 : triangle rotation number
+% 07 : triangle fixation position
 
 for head_num = 1:length(head_txt)
     behav_txt_head{head_num} = head_txt{head_num};
@@ -169,15 +161,14 @@ for trial = 1:const.nb_trials
 end
 
 % End messages
-instructionsIm(scr,const,my_key,'End',1);  %show end screen image
+instructionsIm(scr,const,my_key,'End',1); 
 
 % Save all config at the end of the block (overwrite start made at start)
 config.scr = scr; 
 config.const = const; 
-config.expDes = expDes;...
+config.expDes = expDes;
 config.my_key = my_key;
 config.eyetrack = eyetrack;
-config.aud = aud;
 save(const.mat_file,'config');
 
 % Stop Eyetracking

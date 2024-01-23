@@ -18,139 +18,99 @@ function const = constConfig(scr, const)
 % Randomization
 [const.seed, const.whichGen] = ClockRandSeed;
 
-const.task_lst = [1,2,3,4];
-const.task_txt = {'Calib', 'TriangleOpen', 'TrianglePartClosed', 'TriangleClosed'};
-const.orientation_lst = [0,90,180,360];   %in degrees, need to check still for triangles
-const.orientation_txt = {'0', '90', '180', '360'};
-
 % Colors
-const.white = [1, 1, 1];
-const.black = [0,0,0];
-const.gray = [0.5, 0.5, 0.5];
-const.dark_gray = [0.3, 0.3, 0.3];
-const.red = [0.8, 0, 0];
-const.green = [0.2, 0.7, 0.2];
-const.fixation_color = const.dark_gray;
+const.white = [255, 255, 255];
+const.gray = [128 128 128];
+const.fixation_color = const.white;
 const.background_color = const.gray; 
 
 % Time parameters
-const.TR_sec = 1.2;                                                         % MRI time repetition in seconds
-const.TR_frm = round(const.TR_sec/scr.frame_duration);                      % MRI time repetition in seconds in screen frames
+const.TR_sec = 1.2;                                                                  % MRI time repetition in seconds
+const.TR_frm = round(const.TR_sec/scr.frame_duration);                               % MRI time repetition in seconds in screen frames
 
 %new stimulus time parameters
-const.fixtask.dur_TR = 1;                                                       % Fixation task stimulus duration in scanner TR
-const.fixtask.dur_sec = const.fixtask.dur_TR * const.TR_sec;                    % Fixation task stimulus duration in seconds, should be 1.2
-const.fixtask.dur_frm = round(const.fixtask.dur_sec /scr.frame_duration);       % Total stimulus duration in screen frames
+const.iti_dur_TR = 5;                                                                % Inter trial interval duration in scanner TR
+const.iti_dur_sec = const.iti_dur_TR * const.TR_sec;                                 % Inter trial interval duration in seconds
+const.iti_dur_frm = round(const.iti_dur_sec / scr.frame_duration);                   % Inter trial interval in screen frames
 
-const.pursuit.dur_TR = 1;                                                       % Smooth pursuit task stimulus duration in scanner TR
-const.pursuit.dur_sec = const.pursuit.dur_TR * const.TR_sec;                    % Smooth pursuit task stimulus duration in seconds, should be 1.2
-const.pursuit.dur_frm = round(const.pursuit.dur_sec /scr.frame_duration);       % Total stimulus duration in screen frames
+const.triang_open_dur_TR = 1;                                                        % Triangle stimulus eyes open condition duration in scanner TR
+const.triang_open_dur_sec = const.triang_open_dur_TR * const.TR_sec;                 % Triangle stimulus eyes open condition duration in seconds
+const.triang_open_dur_frm = round(const.triang_open_dur_sec /scr.frame_duration);    % Triangle stimulus eyes open condition duration in screen frames   
 
-const.picTask.dur_TR = 3;                                                       % Picture free viewing task stimulus duration in scanner TR
-const.picTask.dur_sec = const.picTask.dur_TR * const.TR_sec;                    % Picture free viewing task stimulus duration in seconds, should be 1.2
-const.picTask.dur_frm = round(const.picTask.dur_sec /scr.frame_duration);       % Total stimulus duration in screen frames
+const.triang_part_dur_TR = 3;                                                        % Triangle stimulus eyes partly closed condition duration in scanner TR
+const.triang_part_dur_sec = const.triang_part_dur_TR * const.TR_sec;                 % Triangle stimulus eyes partly closed duration in seconds
+const.triang_part_dur_frm = round(const.triang_part_dur_sec /scr.frame_duration);    % Triangle stimulus eyes partly closed duration in screen frames   
 
+const.triang_closed_dur_TR = 1;                                                      % Triangle stimulus eyes closed condition duration in scanner TR
+const.triang_closed_dur_sec = const.triang_closed_dur_TR * const.TR_sec;             % Triangle stimulus eyes closed condition duration in seconds
+const.triang_closed_dur_frm = round(const.triang_closed_dur_sec ...
+                              /scr.frame_duration);                                  % Triangle stimulus eyes closed condition duration in screen frames  
 
-const.triang.dur_TR = 1;                                                       % Triangle stimulus duration in scanner TR
-const.triang.dur_sec = const.triang.dur_TR * const.TR_sec;                     % Triangle stimulus duration in seconds, should be 1.2
-const.triang.dur_frm = round(const.triang.dur_sec /scr.frame_duration);        % Total stimulus duration in screen frames
-
-const.triang_closed.dur_TR = 3;                                                              % Triangle stimulus duration in scanner TR
-const.triang_closed.dur_sec = const.triang_closed.dur_TR * const.TR_sec;                     % Triangle stimulus duration in seconds, should be 3.6
-const.triang_closed.dur_frm = round(const.triang_closed.dur_sec /scr.frame_duration);        % Total stimulus duration in screen frames
-
-
-%const.TRs = (const.fixtask.dur_TR+const.pursuit.dur_TR+const.picTask.dur_TR+const.triang.dur_TR)*2; % TR per trials
-    
 % Stim parameters
-[const.ppd] = vaDeg2pix(1, scr); % one pixel per dva
-const.dpp = 1/const.ppd;         %degrees per pixel
+[const.ppd] = vaDeg2pix(1, scr);                                                     % one pixel per dva
+const.dpp = 1/const.ppd;                                                             % degrees per pixel
+const.window_sizeVal = 14;                                                           % side of the display window
 
-%Fixation Task (Calib Matthias)
-const.fixtask.win_sz                                 =    18; %in degrees of visual angle 
-[const.fixtask.win_sz_px, const.fixtask.win_sz_py]   =    vaDeg2pix(const.fixtask.win_sz, scr);  %will return x y pixels
-const.fixtask.n_locs                                 =    [5 5]; % n fixation locations [horizontal, vertical] [10 10]
-const                                                =    getFixLocations(const,scr); %create coordinates for fixation locations
-
-%Smooth Pursuit Task (Calib Matthias) 
-const.pursuit.win_sz_px      =    const.fixtask.win_sz_px;
-const.pursuit.win_sz_py      =    const.fixtask.win_sz_py;
-const.pursuit.angles         =    deg2rad(0:35.8889:359);%deg2rad(0:15:359); % tested directions
-const.pursuit.mov_amp        =    [2 4 6]; % movement amplitudes in visual angle
-valid = 0; while ~valid
-    [const, valid]           =    getFixLocations_pursuit(const,scr,valid); end % create trajectories for smoooth pursuit
+% tasks
+const.task_txt = {'inter-trial interval', 'triangle_open', 'triangle_part_closed', 'triangle_closed'};
 
 
-%Picture Free Viewing Task (Calib Matthias) 
-const.picTask.pic_sz         =   10;
-const.picTask.pic_sz_px      =   vaDeg2pix(const.picTask.pic_sz, scr);
-const.picTask.path2pics      =   fullfile('./stim/images'); 
-const.picTask.n_pics         =   10; % how many of the pictures in the folder should be shown (random selection)? (10)
+% triangle task parameters
+const.triang_size    = 14;
+const.triang_size_px = vaDeg2pix(const.triang_size, scr);
 
-%Traingle eyes open
-const.instructionTexts.triang = {'Triangle Up', 'Triangle Right', 'Triangle Down', 'Triangle Left'};
-const.triang_rot              =    3;  %how many times triangle is rotated
-const.triang.n_rep            =    1;  %how many times the set of triangle coordinates should be repeated
+const.triang_coords_middle = [scr.x_mid, scr.y_mid];
+const.triang_coords_down_right = [scr.x_mid + const.triang_size_px /2, scr.y_mid + const.triang_size_px /2]; 
+const.triang_coords_down_left = [scr.x_mid - const.triang_size_px /2, scr.y_mid + const.triang_size_px /2];
+const.triang_coords_up_right [cr.x_mid + const.triang_size_px /2, scr.y_mid - const.triang_size_px /2];
+const.triang_coords_up_left = [scr.x_mid - const.triang_size_px /2, scr.y_mid - const.triang_size_px /2];
 
-% Generate triangle coordinates
-const.triang.triangleSizeDegrees = 10;
-const.triang.triangleSizePixels = vaDeg2pix(const.triang.triangleSizeDegrees, scr);
-
-const.triang.coords_up        = [
-    scr.x_mid, scr.y_mid; 
-    scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2; 
-    scr.x_mid - const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2; 
-    scr.x_mid, scr.y_mid
-    ];
-const.triang.coords_right     = [
-    scr.x_mid, scr.y_mid; 
-    scr.x_mid - const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2; 
-    scr.x_mid - const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
-    scr.x_mid, scr.y_mid
-    ];
-const.triang.coords_down      = [
-    scr.x_mid, scr.y_mid; 
-    scr.x_mid - const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
-    scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
-    scr.x_mid, scr.y_mid
-    ];
-const.triang.coords_left      = [
-    scr.x_mid, scr.y_mid; 
-    scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
-    scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2;
-    scr.x_mid, scr.y_mid
+const.triang.coords = [
+    scr.x_mid, scr.y_mid;                                                     % middle
+    scr.x_mid + const.triang_size_px /2, scr.y_mid + const.triang_size_px /2; % down_right
+    scr.x_mid - const.triang_size_px /2, scr.y_mid + const.triang_size_px /2; % down_left
+    scr.x_mid, scr.y_mid;                                                     % middle
+    scr.x_mid, scr.y_mid;                                                     % middle
+    scr.x_mid - const.triang_size_px /2, scr.y_mid + const.triang_size_px /2; % down_left
+    scr.x_mid - const.triang_size_px /2, scr.y_mid - const.triang_size_px /2; % up_left
+    scr.x_mid, scr.y_mid;                                                     % middle
+    scr.x_mid, scr.y_mid;                                                     % middle
+    scr.x_mid - const.triang_size_px /2, scr.y_mid - const.triang_size_px /2; % up_left
+    scr.x_mid + const.triang_size_px /2, scr.y_mid - const.triang_size_px /2; % up_right
+    scr.x_mid, scr.y_mid;                                                     % middle
+    scr.x_mid, scr.y_mid;                                                     % middle
+    scr.x_mid + const.triang_size_px /2, scr.y_mid - const.triang_size_px /2; % up_right
+    scr.x_mid + const.triang_size_px /2, scr.y_mid + const.triang_size_px /2; % down_right
+    scr.x_mid, scr.y_mid;                                                     % middle
     ];
 
-% Combine triangle coordinates into an array 
-const.triang.coords_all = [
-    scr.x_mid, scr.y_mid; 
-    scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2; 
-    scr.x_mid - const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2; 
-    scr.x_mid, scr.y_mid;scr.x_mid, scr.y_mid; scr.x_mid - const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2; 
-    scr.x_mid - const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
-    scr.x_mid, scr.y_mid;scr.x_mid, scr.y_mid; 
-    scr.x_mid - const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
-    scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
-    scr.x_mid, scr.y_mid;scr.x_mid, scr.y_mid; scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid - const.triang.triangleSizePixels /2; 
-    scr.x_mid + const.triang.triangleSizePixels /2, scr.y_mid + const.triang.triangleSizePixels /2;scr.x_mid, scr.y_mid
-    ];
+const.triangle_position_txt =  {'up_left', 'up_right', 'middle', 'down_left', 'down_right'};
+
+
 
 % Trial settings
-if const.mkVideo
-    const.nb_repeat = 1;                                                    % Trial repetition in video mode
-    const.nb_trials = 1;                                                    % Number of trials in video mode
-else
-    const.nb_repeat = 1;                                                    %  4 Trial repetition
-    const.nb_trials = 1;
-    %const.nb_repeat * length(const.task_lst) * ...                         % Number of trials  
-        %length(const.task_lst);
-end
+const.nb_repeat_triang_open = 1;
+const.nb_trials_triang_open = length(const.triang.coords) * const.nb_repeat_triang_open;
+const.TRs_triang_open = const.nb_trials_triang_open * const.triang_open_dur_TR;
 
+const.nb_repeat_triang_part = 1;
+const.nb_trials_triang_part = length(const.triang.coords) * const.nb_repeat_triang_part;
+const.TRs_triang_part = const.nb_trials_triang_part * const.triang_part_dur_TR;
 
+const.nb_repeat_triang_closed = 1;
+const.nb_trials_triang_closed = length(const.triang.coords) * const.nb_repeat_triang_closed;
+const.TRs_triang_closed = const.nb_trials_triang_closed* const.triang_closed_dur_TR;
+
+const.nb_trials_iti = 4; % 3 iti and final one
+const.TRs_iti = const.nb_trials_iti * const.iti_dur_TR;
+
+const.nb_trials = const.nb_trials_triang_open + const.nb_trials_triang_part + ...
+    const.nb_trials_triang_closed + const.nb_trials_iti;
 
 % define total TR numbers and scan duration
 if const.scanner
-    const.TRs_total = const.nb_trials*const.TRs;
+    const.TRs_total = const.TRs_triang_open + const.TRs_triang_part + ...
+                            const.TRs_triang_closed + const.TRs_iti;
     fprintf(1,'\n\tScanner parameters: %1.0f TRs of %1.2f seconds for a total of %s\n',...
         const.TRs_total, const.TR_sec, ...
         datestr(seconds((const.TRs_total*const.TR_sec...
