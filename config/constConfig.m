@@ -46,6 +46,12 @@ const.triang_closed_dur_sec = const.triang_closed_dur_TR * const.TR_sec;        
 const.triang_closed_dur_frm = round(const.triang_closed_dur_sec ...
                               /scr.frame_duration);                                  % Triangle stimulus eyes closed condition duration in screen frames  
 
+
+const.sound_interval_TR = 1;                                                        % Sound interval duration in scanner TR
+const.sound_interval_sec = const.sound_interval_TR * const.TR_sec;                  % Sound interval duration in seconds
+const.sound_interval_frm = round(const.sound_interval_sec /scr.frame_duration);     % Sound interval duration in screen frames   
+
+
 % Stim parameters
 [const.ppd] = vaDeg2pix(1, scr);                                                     % one pixel per dva
 const.dpp = 1/const.ppd;                                                             % degrees per pixel

@@ -146,6 +146,9 @@ for t = 1:const.nb_trials
     
     % Main diplay loop
     nbf = 0;
+    soundInterval = 0; %initialize the sound counter
+    playSound = 0; 
+
     while nbf < trial_offset
         % Flip count
         nbf = nbf + 1;
@@ -156,6 +159,7 @@ for t = 1:const.nb_trials
         if task == 1
             if nbf >= iti_onset_nbf && nbf <= iti_offset_nbf 
                 drawBullsEye(scr, const, iti_x, iti_y);
+                playSound = 0;
             end
         end
         
@@ -163,6 +167,9 @@ for t = 1:const.nb_trials
         if task == 2
             if nbf >= triang_open_onset_nbf && nbf <= triang_open_offset_nbf
                 drawBullsEye(scr, const, triang_x, triang_y);
+                playSound = 1;
+            elseif nbf > triang_open_offset_nbf
+                playSound = 0;
             end
         end
         
@@ -170,17 +177,22 @@ for t = 1:const.nb_trials
         if task == 3
             if nbf >= triang_part_onset_nbf && nbf <= triang_part_offset_nbf
                 drawBullsEye(scr, const, triang_x, triang_y);
+                playSound = 1;
+            elseif nbf > triang_part_offset_nbf
+                playSound = 0;
             end
         end
         
         % Freeview task
         if task == 4
             if nbf >= triang_closed_onset_nbf && nbf <= triang_closed_offset_nbf
-                
+                playSound = 1;
+            elseif nbf > triang_closed_offset_nbf
+                playSound = 0;
             end
                      
         end
-        
+
         % Check keyboard
         keyPressed = 0;
         keyCode = zeros(1,my_key.keyCodeNum);
@@ -207,6 +219,12 @@ for t = 1:const.nb_trials
         % flip screen
         vbl = Screen('Flip', scr.main);
 
+        % Check if it's time to play the sound (for tasks 2, 3, and 4)
+        if playSound && mod(nbf - 1, const.sound_interval_frm) == 0   %Play the sound only every const.sound_interval_frm frames
+            my_sound(1, aud);
+            soundInterval = soundInterval + 1;
+            
+        end
         
         % Save trials times
         if task == 1
