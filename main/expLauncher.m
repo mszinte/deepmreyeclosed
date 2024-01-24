@@ -3,14 +3,14 @@
 % By: Sina KLING
 % Projet: DeepMReyeClosed
 
-% Experimental design : ~3min
-% Task 1: calibration fixation 
-% Task 1: calibration pursuit
-% Task 1: calibration freeview images
+% Experimental design : ~4min
+% Task 1: triangle with eyes open 
+% Task 2: triangle with eyes partly closed
+% Task 3: triangle with eyes closed
 
 % TODO (Sina)
 % ----------- 
-% finish deepmryeclosed
+% finish deepmryeclosed: add sound
 % check in testing room
 % see with eye tracker 
 % analyse data of eye tracker
