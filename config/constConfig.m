@@ -51,6 +51,8 @@ const.sound_interval_TR = 1;                                                    
 const.sound_interval_sec = const.sound_interval_TR * const.TR_sec;                  % Sound interval duration in seconds
 const.sound_interval_frm = round(const.sound_interval_sec /scr.frame_duration);     % Sound interval duration in screen frames   
 
+const.total_sound_intervals = 3;
+
 
 % Stim parameters
 [const.ppd] = vaDeg2pix(1, scr);                                                     % one pixel per dva

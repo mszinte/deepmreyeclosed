@@ -147,7 +147,9 @@ for t = 1:const.nb_trials
     % Main diplay loop
     nbf = 0;
     soundInterval = 0; %initialize the sound counter
-    playSound = 0; 
+    playSound1 = 0; 
+    playSound2 = 0;
+    playSound3 = 0;
 
     while nbf < trial_offset
         % Flip count
@@ -159,7 +161,9 @@ for t = 1:const.nb_trials
         if task == 1
             if nbf >= iti_onset_nbf && nbf <= iti_offset_nbf 
                 drawBullsEye(scr, const, iti_x, iti_y);
-                playSound = 0;
+                playSound1 = 0;
+                playSound2 = 0;
+                playSound3 = 0;
             end
         end
         
@@ -167,9 +171,11 @@ for t = 1:const.nb_trials
         if task == 2
             if nbf >= triang_open_onset_nbf && nbf <= triang_open_offset_nbf
                 drawBullsEye(scr, const, triang_x, triang_y);
-                playSound = 1;
+                playSound1 = 1;
+                playSound2 = 0;
+                playSound3 = 0;
             elseif nbf > triang_open_offset_nbf
-                playSound = 0;
+                playSound1 = 0;
             end
         end
         
@@ -177,18 +183,22 @@ for t = 1:const.nb_trials
         if task == 3
             if nbf >= triang_part_onset_nbf && nbf <= triang_part_offset_nbf
                 drawBullsEye(scr, const, triang_x, triang_y);
-                playSound = 1;
+                playSound1 = 0;
+                playSound2 = 1;
+                playSound3 = 0;
             elseif nbf > triang_part_offset_nbf
-                playSound = 0;
+                playSound2 = 0;
             end
         end
         
         % Freeview task
         if task == 4
             if nbf >= triang_closed_onset_nbf && nbf <= triang_closed_offset_nbf
-                playSound = 1;
+                playSound1 = 0;
+                playSound2 = 0;
+                playSound3 = 1;
             elseif nbf > triang_closed_offset_nbf
-                playSound = 0;
+                playSound3 = 0;
             end
                      
         end
@@ -219,11 +229,30 @@ for t = 1:const.nb_trials
         % flip screen
         vbl = Screen('Flip', scr.main);
 
-        % Check if it's time to play the sound (for tasks 2, 3, and 4)
-        if playSound && mod(nbf - 1, const.sound_interval_frm) == 0   %Play the sound only every const.sound_interval_frm frames
-            my_sound(1, aud);
-            soundInterval = soundInterval + 1;
-            
+        % Check if it's time to play the sound (every const.sound_interval_frm frames)
+        if mod(nbf - 1, const.sound_interval_frm) == 0
+            % Play sound 1, sound 2, and sound 3 sequentially
+            if playSound1
+                my_sound(1, aud);
+                soundInterval = soundInterval + 1;
+                playSound1 = 0;
+                playSound2 = 1;
+            elseif playSound2
+                my_sound(2, aud);
+                soundInterval = soundInterval + 1;
+                playSound2 = 0;
+                playSound3 = 1;
+            elseif playSound3
+                my_sound(3, aud);
+                soundInterval = soundInterval + 1;
+                playSound3 = 0;
+                % Reset the sound counter after playing all three sounds
+                if soundInterval == const.total_sound_intervals
+                    soundInterval = 0;
+                end
+                % Set playSound1 to true to start the sequence again
+                playSound1 = 1;
+            end
         end
         
         % Save trials times
