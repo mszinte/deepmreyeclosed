@@ -121,6 +121,7 @@ head_txt = {'onset', 'duration', 'run_number', 'trial_number', ...
 % 05 : task
 % 06 : triangle rotation number
 % 07 : triangle fixation location
+% 08 : sound number
 
 for head_num = 1:length(head_txt)
     behav_txt_head{head_num} = head_txt{head_num};
