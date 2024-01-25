@@ -33,7 +33,7 @@ const.iti_dur_TR = 5;                                                           
 const.iti_dur_sec = const.iti_dur_TR * const.TR_sec;                                 % Inter trial interval duration in seconds
 const.iti_dur_frm = round(const.iti_dur_sec / scr.frame_duration);                   % Inter trial interval in screen frames
 
-const.triang_open_dur_TR = 3;                                                        % Triangle stimulus eyes open condition duration in scanner TR
+const.triang_open_dur_TR = 1;                                                        % Triangle stimulus eyes open condition duration in scanner TR
 const.triang_open_dur_sec = const.triang_open_dur_TR * const.TR_sec;                 % Triangle stimulus eyes open condition duration in seconds
 const.triang_open_dur_frm = round(const.triang_open_dur_sec /scr.frame_duration);    % Triangle stimulus eyes open condition duration in screen frames   
 
@@ -41,7 +41,7 @@ const.triang_part_dur_TR = 3;                                                   
 const.triang_part_dur_sec = const.triang_part_dur_TR * const.TR_sec;                 % Triangle stimulus eyes partly closed duration in seconds
 const.triang_part_dur_frm = round(const.triang_part_dur_sec /scr.frame_duration);    % Triangle stimulus eyes partly closed duration in screen frames   
 
-const.triang_closed_dur_TR = 3;                                                      % Triangle stimulus eyes closed condition duration in scanner TR
+const.triang_closed_dur_TR = 1;                                                      % Triangle stimulus eyes closed condition duration in scanner TR
 const.triang_closed_dur_sec = const.triang_closed_dur_TR * const.TR_sec;             % Triangle stimulus eyes closed condition duration in seconds
 const.triang_closed_dur_frm = round(const.triang_closed_dur_sec ...
                               /scr.frame_duration);                                  % Triangle stimulus eyes closed condition duration in screen frames  
@@ -89,9 +89,7 @@ const.triang_coords_all = [const.triang_coords_middle;
                            ]; 
 
 
-const.triangle_position_txt =  {'up_left', 'up_right', 'middle', 'down_left', 'down_right'};
 
-const.triangle_rotation_txt = {'up', 'right', 'down', 'left'};
 
 % Trial settings
 const.nb_repeat_triang_open = 1;
@@ -111,6 +109,20 @@ const.TRs_iti = const.nb_trials_iti * const.iti_dur_TR;
 
 const.nb_trials = const.nb_trials_triang_open + const.nb_trials_triang_part + ...
     const.nb_trials_triang_closed + const.nb_trials_iti;
+
+
+% Final triangle settings
+const.triangle_position_order = repmat([5,4,3,4,1,3,1,2,3,2,5,3],1,const.nb_repeat_triang_open);
+
+const.triangle_position_txt =  {'up_left', 'up_right', 'middle', 'down_left', 'down_right'};
+
+const.triangle_rotation_txt = {'up', 'right', 'down', 'left'};
+
+
+
+% Final sound settings 
+const.sound_order = repmat((repmat([1,2,3],1,4)),1,const.nb_repeat_triang_open);
+
 
 % define total TR numbers and scan duration
 if const.scanner
