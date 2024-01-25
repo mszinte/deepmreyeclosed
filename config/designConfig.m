@@ -46,7 +46,7 @@ expDes.nb_var = 2;
 
 % Triangle eyes open point location experimental loop
 ii = 0;
-triang_location_order_open = repmat([3,5,4,3,4,1,3,1,2,3,2,5],1,const.nb_repeat_triang_open);
+triang_location_order = repmat([5,4,3,4,1,3,1,2,3,2,5,3],1,const.nb_repeat_triang_open);
 
 trialMat_triang_open = zeros(const.nb_trials_triang_open, expDes.nb_var+1)*nan;
 for rep = 1:const.nb_repeat_triang_open
@@ -63,12 +63,10 @@ end
 
 trialMat_triang_open = [1, nan, nan; % add intertrial interval
                         trialMat_triang_open];  
-trialMat_triang_open(2:length(trialMat_triang_open),3) = triang_location_order_open;
+trialMat_triang_open(2:length(trialMat_triang_open),3) = triang_location_order;
 
 % Triangle eyes open point location experimental loop
 ii = 0;
-triang_location_order_part = repmat([3,5,4,3,4,1,3,1,2,3,2,5],1,const.nb_repeat_triang_part);
-
 trialMat_triang_part = zeros(const.nb_trials_triang_part, expDes.nb_var+1)*nan;
 for rep = 1:const.nb_repeat_triang_part
     for var1 = 1:expDes.nb_var1
@@ -83,11 +81,11 @@ end
 
 trialMat_triang_part = [1, nan, nan; % add intertrial interval
                         trialMat_triang_part];
-
-trialMat_triang_part(2:length(trialMat_triang_part),3) = triang_location_order_part;
+trialMat_triang_part(2:length(trialMat_triang_part),3) = triang_location_order;
 
 % Triangle eyes closed experimental loop
 ii = 0;
+
 trialMat_triang_closed = zeros(const.nb_trials_triang_closed, expDes.nb_var+1)*nan;
 for rep = 1:const.nb_repeat_triang_closed
     for var1 = 1:expDes.nb_var1
@@ -102,9 +100,13 @@ end
 
 trialMat_triang_closed = [1, nan, nan; ... % add intertrial interval
                          trialMat_triang_closed; ...
-                         1, nan, nan; % add end interval
                          ];    
+trialMat_triang_closed(2:length(trialMat_triang_closed),3) = triang_location_order;
 
+trialMat_triang_closed  = [trialMat_triang_closed; ...
+                           1, nan, nan]; ... % add intertrial interval
+    
+                     
 % Define main matrix
 trialMat = [trialMat_triang_open; ...
             trialMat_triang_part; ...
