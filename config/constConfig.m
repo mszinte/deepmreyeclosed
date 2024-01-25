@@ -33,7 +33,7 @@ const.iti_dur_TR = 5;                                                           
 const.iti_dur_sec = const.iti_dur_TR * const.TR_sec;                                 % Inter trial interval duration in seconds
 const.iti_dur_frm = round(const.iti_dur_sec / scr.frame_duration);                   % Inter trial interval in screen frames
 
-const.triang_open_dur_TR = 1;                                                        % Triangle stimulus eyes open condition duration in scanner TR
+const.triang_open_dur_TR = 3;                                                        % Triangle stimulus eyes open condition duration in scanner TR
 const.triang_open_dur_sec = const.triang_open_dur_TR * const.TR_sec;                 % Triangle stimulus eyes open condition duration in seconds
 const.triang_open_dur_frm = round(const.triang_open_dur_sec /scr.frame_duration);    % Triangle stimulus eyes open condition duration in screen frames   
 
@@ -41,7 +41,7 @@ const.triang_part_dur_TR = 3;                                                   
 const.triang_part_dur_sec = const.triang_part_dur_TR * const.TR_sec;                 % Triangle stimulus eyes partly closed duration in seconds
 const.triang_part_dur_frm = round(const.triang_part_dur_sec /scr.frame_duration);    % Triangle stimulus eyes partly closed duration in screen frames   
 
-const.triang_closed_dur_TR = 1;                                                      % Triangle stimulus eyes closed condition duration in scanner TR
+const.triang_closed_dur_TR = 3;                                                      % Triangle stimulus eyes closed condition duration in scanner TR
 const.triang_closed_dur_sec = const.triang_closed_dur_TR * const.TR_sec;             % Triangle stimulus eyes closed condition duration in seconds
 const.triang_closed_dur_frm = round(const.triang_closed_dur_sec ...
                               /scr.frame_duration);                                  % Triangle stimulus eyes closed condition duration in screen frames  
