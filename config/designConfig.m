@@ -1,4 +1,4 @@
-function expDes = designConfig(scr, const)
+function expDes = designConfig(const)
 % ----------------------------------------------------------------------
 % expDes = designConfig(const)
 % ----------------------------------------------------------------------
@@ -13,134 +13,84 @@ function expDes = designConfig(scr, const)
 % expDes : struct containg experimental design
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
+% Edited by Sina KLING (sina.kling@outlook.de)
 % ----------------------------------------------------------------------
 
 % Experimental condition
-% 01 - intertrial interval
-% 02 - triangle eyes open task
-% 03 - triangle eyes partly closed task
-% 04 - triangle eyes closed task
+% 01 - inter-trial interval
+% 02 - eyes open task
+% 03 - eyes blink task
+% 04 - eyes closed task
 
-% Experimental variables
-% Var 1: triangle rotation condition 
-expDes.oneV = [1:1:4]';
-expDes.nb_var1 = length(expDes.oneV);
-% 01: up 
-% 02: right
-% 03: down
-% 04: left
-
-
-% Var 2: triangle point location
-expDes.twoV = [1:1:5]';
-expDes.nb_var2 = length(expDes.twoV);
+% Var 1: Fixation posiiton
+% Order predifined
 % 01 (up_left)           02 (up_right)
 %             03 (middle)
 % 04 (down_left)         05 (down_right)
 
-
 % Experimental loop
-expDes.nb_var = 2;
+expDes.nb_var = 1;
 
-
-% Triangle eyes open point location experimental loop
+% Eyes open experimental loop
 ii = 0;
-
-trialMat_triang_open = zeros(const.nb_trials_triang_open, expDes.nb_var+1)*nan;
-for rep = 1:const.nb_repeat_triang_open
-    for var1 = 1:expDes.nb_var1
-        for var2 = 1:3       % will only need 3 out of the 5 possible positions
-            for sound = 1:3  % repeat for each sound condition
-                ii = ii + 1;
-                trialMat_triang_open(ii, 1) = 2;
-                trialMat_triang_open(ii, 2) = var1;   % rotation
-                trialMat_triang_open(ii, 3) = nan;    % position filled later
-                trialMat_triang_open(ii, 4) = sound;    
-                
-            end
-        end
+trialMat_eyes_open = zeros(const.nb_trials_eyes_open, expDes.nb_var+1) ...
+    * nan;
+for rep = 1:const.nb_repeat_eyes_open
+    for var1 = const.fix_position_order
+        ii = ii + 1;
+        trialMat_eyes_open(ii, 1) = 2;          % condition
+        trialMat_eyes_open(ii, 2) = var1;       % eye position
     end
 end
+trialMat_eyes_open = [1, nan; ...               % add intertrial interval
+                      trialMat_eyes_open];  
 
-
-trialMat_triang_open = [1, nan, nan, 4; % add intertrial interval
-                        trialMat_triang_open];  
-
-trialMat_triang_open(2:length(trialMat_triang_open),3) = const.triangle_position_order; 
-
-
-
-% Triangle eyes partly closed point location experimental loop
+% Eyes blink experimental loop
 ii = 0;
-
-trialMat_triang_part = zeros(const.nb_trials_triang_part, expDes.nb_var+1)*nan;
-for rep = 1:const.nb_repeat_triang_part
-    for var1 = 1:expDes.nb_var1
-        for var2 = 1:3       % will only need 3 out of the 5 possible positions
-            for sound = 1:3  % repeat for each sound condition
-                ii = ii + 1;
-                trialMat_triang_part(ii, 1) = 3;
-                trialMat_triang_part(ii, 2) = var1;   % rotation
-                trialMat_triang_part(ii, 3) = nan;    % position filled later
-                trialMat_triang_part(ii, 4) = sound;    
-                
-            end
-        end
+trialMat_eyes_blink = zeros(const.nb_trials_eyes_blink, expDes.nb_var+1) ...
+    * nan;
+for rep = 1:const.nb_repeat_eyes_blink
+    for var1 = const.fix_position_order
+        ii = ii + 1;
+        trialMat_eyes_blink(ii, 1) = 3;         % condition
+        trialMat_eyes_blink(ii, 2) = var1;      % eye position
     end
 end
+trialMat_eyes_blink = [1, nan; ...              % add inter-trial interval
+                       trialMat_eyes_blink];
 
-
-trialMat_triang_part = [1, nan, nan, 4; % add intertrial interval
-                        trialMat_triang_part];  
-
-trialMat_triang_part(2:length(trialMat_triang_part),3) = const.triangle_position_order; 
-
-% Triangle eyes closed experimental loop
+% Eyes closed experimental loop
 ii = 0;
-
-trialMat_triang_closed = zeros(const.nb_trials_triang_closed, expDes.nb_var+1)*nan;
-for rep = 1:const.nb_repeat_triang_closed
-    for var1 = 1:expDes.nb_var1
-        for var2 = 1:3       % will only need 3 out of the 5 possible positions
-            for sound = 1:3  % repeat for each sound condition
-                ii = ii + 1;
-                trialMat_triang_closed(ii, 1) = 4;
-                trialMat_triang_closed(ii, 2) = var1;   % rotation
-                trialMat_triang_closed(ii, 3) = nan;    % position filled later
-                trialMat_triang_closed(ii, 4) = sound;    
-                
-            end
-        end
+trialMat_eyes_close = zeros(const.nb_trials_eyes_close, expDes.nb_var+1) ...
+    * nan;
+for rep = 1:const.nb_repeat_eyes_close
+    for var1 = const.fix_position_order
+        ii = ii + 1;
+        trialMat_eyes_close(ii, 1) = 3;         % condition
+        trialMat_eyes_close(ii, 2) = var1;      % eye position
     end
 end
+trialMat_eyes_close = [1, nan; ...              % add inter-trial interval
+                       trialMat_eyes_close; ...
+                       1, nan];                 % add final interval
 
-trialMat_triang_closed = [1, nan, nan, 4; ... % add intertrial interval
-                         trialMat_triang_closed; ...
-                         ];    
-
-trialMat_triang_closed(2:length(trialMat_triang_closed),3) = const.triangle_position_order; 
-
-
-trialMat_triang_closed  = [trialMat_triang_closed; ...
-                           1, nan, nan, 4]; ... % add intertrial interval
-    
                      
 % Define main matrix
-trialMat = [trialMat_triang_open; ...
-            trialMat_triang_part; ...
-            trialMat_triang_closed];
+trialMat = [trialMat_eyes_open; ...
+            trialMat_eyes_blink; ...
+            trialMat_eyes_close];
 
 
 expDes.expMat = [zeros(const.nb_trials,2)*nan, ...
-    zeros(const.nb_trials,1)*0+const.runNum,...
-    [1:const.nb_trials]',trialMat];
+                 zeros(const.nb_trials,1)*0+const.runNum,...
+                 [1:const.nb_trials]', ...
+                 trialMat];
 
 % 01 : onset
 % 02 : duration
 % 03 : run number
 % 04 : trial number
 % 05 : task
-% 06 : triangle rotation number
-% 07 : triangle fixation position
+% 06 : fixation position
 
 end

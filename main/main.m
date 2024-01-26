@@ -12,6 +12,7 @@ function main(const)
 % none
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
+% Edited by Sina KLING (sina.kling@outlook.de)
 % ----------------------------------------------------------------------
 
 tic;
@@ -22,6 +23,7 @@ const = dirSaveFile(const);
 % Screen configurations
 scr = scrConfig(const);
 
+% Audio configurations
 aud = audioConfig;
 
 % Triggers and button configurations
@@ -31,7 +33,7 @@ my_key = keyConfig(const);
 const = constConfig(scr, const);
 
 % Experimental design
-expDes = designConfig(scr, const);
+expDes = designConfig(const);
 
 % Open screen windows
 [scr.main, scr.rect] = Screen('OpenWindow', scr.scr_num, ...
@@ -41,7 +43,6 @@ expDes = designConfig(scr, const);
 priorityLevel = MaxPriority(scr.main);Priority(priorityLevel);
 
 % Open sound pointer
-
 aud.master_main = PsychPortAudio('Open', [], aud.master_mode,...
     aud.master_reqlatclass, [], aud.master_nChannels);
 PsychPortAudio('Start', aud.master_main, aud.master_rep, ...

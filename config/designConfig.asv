@@ -16,44 +16,40 @@ function expDes = designConfig(scr, const)
 % ----------------------------------------------------------------------
 
 % Experimental condition
-% 01 - intertrial interval
-% 02 - triangle eyes open task
-% 03 - triangle eyes partly closed task
-% 04 - triangle eyes closed task
+% 01 - inter-trial interval
+% 02 - eyes open task
+% 03 - eyes blink task
+% 04 - eyes closed task
 
 % Experimental variables
-% Var 1: triangle rotation condition 
+% Var 1: triangle pointing direction condition 
 expDes.oneV = [1:1:4]';
 expDes.nb_var1 = length(expDes.oneV);
-% 01: up 
-% 02: right
-% 03: down
-% 04: left
+% 01: triangle up 
+% 02: triangle right
+% 03: triangle down
+% 04: triangle left
 
-
-% Var 2: triangle point location
+% Var 2: Fixation posiiton
 expDes.twoV = [1:1:5]';
 expDes.nb_var2 = length(expDes.twoV);
 % 01 (up_left)           02 (up_right)
 %             03 (middle)
 % 04 (down_left)         05 (down_right)
 
-
 % Experimental loop
 expDes.nb_var = 2;
 
-
-
-% Triangle eyes open point location experimental loop
+% Eyes open experimental loop
 ii = 0;
 
-trialMat_triang_open = zeros(const.nb_trials_triang_open, expDes.nb_var+1)*nan;
-for rep = 1:const.nb_repeat_triang_open
+trialMat_eyes_open = zeros(const.nb_trials_eyes_open, expDes.nb_var+1) * nan;
+for rep = 1:const.nb_repeat_eyes_open
     for var1 = 1:expDes.nb_var1
         for var2 = 1:3       % will only need 3 out of the 5 possible positions
             for sound = 1:3  % repeat for each sound condition
                 ii = ii + 1;
-                trialMat_triang_open(ii, 1) = 1;
+                trialMat_triang_open(ii, 1) = 2;
                 trialMat_triang_open(ii, 2) = var1;   % rotation
                 trialMat_triang_open(ii, 3) = nan;    % position filled later
                 trialMat_triang_open(ii, 4) = sound;    
@@ -71,19 +67,19 @@ trialMat_triang_open(2:length(trialMat_triang_open),3) = const.triangle_position
 
 
 
-% Triangle eyes open point location experimental loop
+% Triangle eyes partly closed point location experimental loop
 ii = 0;
 
-trialMat_triang_open = zeros(const.nb_trials_triang_part, expDes.nb_var+1)*nan;
+trialMat_triang_part = zeros(const.nb_trials_triang_part, expDes.nb_var+1)*nan;
 for rep = 1:const.nb_repeat_triang_part
     for var1 = 1:expDes.nb_var1
         for var2 = 1:3       % will only need 3 out of the 5 possible positions
             for sound = 1:3  % repeat for each sound condition
                 ii = ii + 1;
-                trialMat_triang_open(ii, 1) = 1;
-                trialMat_triang_open(ii, 2) = var1;   % rotation
-                trialMat_triang_open(ii, 3) = nan;    % position filled later
-                trialMat_triang_open(ii, 4) = sound;    
+                trialMat_triang_part(ii, 1) = 3;
+                trialMat_triang_part(ii, 2) = var1;   % rotation
+                trialMat_triang_part(ii, 3) = nan;    % position filled later
+                trialMat_triang_part(ii, 4) = sound;    
                 
             end
         end
@@ -99,16 +95,16 @@ trialMat_triang_part(2:length(trialMat_triang_part),3) = const.triangle_position
 % Triangle eyes closed experimental loop
 ii = 0;
 
-trialMat_triang_open = zeros(const.nb_trials_triang_part, expDes.nb_var+1)*nan;
-for rep = 1:const.nb_repeat_triang_part
+trialMat_triang_closed = zeros(const.nb_trials_triang_closed, expDes.nb_var+1)*nan;
+for rep = 1:const.nb_repeat_triang_closed
     for var1 = 1:expDes.nb_var1
         for var2 = 1:3       % will only need 3 out of the 5 possible positions
             for sound = 1:3  % repeat for each sound condition
                 ii = ii + 1;
-                trialMat_triang_open(ii, 1) = 1;
-                trialMat_triang_open(ii, 2) = var1;   % rotation
-                trialMat_triang_open(ii, 3) = nan;    % position filled later
-                trialMat_triang_open(ii, 4) = sound;    
+                trialMat_triang_closed(ii, 1) = 4;
+                trialMat_triang_closed(ii, 2) = var1;   % rotation
+                trialMat_triang_closed(ii, 3) = nan;    % position filled later
+                trialMat_triang_closed(ii, 4) = sound;    
                 
             end
         end
@@ -119,8 +115,8 @@ trialMat_triang_closed = [1, nan, nan, 4; ... % add intertrial interval
                          trialMat_triang_closed; ...
                          ];    
 
-trialMat_triang_closed(2:length(trialMat_triang_closed),3) = const.triangle_position_order;
-trialMat_triang_closed(2:length(trialMat_triang_closed),4) = const.sound_order; 
+trialMat_triang_closed(2:length(trialMat_triang_closed),3) = const.triangle_position_order; 
+
 
 trialMat_triang_closed  = [trialMat_triang_closed; ...
                            1, nan, nan, 4]; ... % add intertrial interval
