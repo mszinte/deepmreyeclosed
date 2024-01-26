@@ -37,7 +37,7 @@ const.triang_open_dur_TR = 1;                                                   
 const.triang_open_dur_sec = const.triang_open_dur_TR * const.TR_sec;                 % Triangle stimulus eyes open condition duration in seconds
 const.triang_open_dur_frm = round(const.triang_open_dur_sec /scr.frame_duration);    % Triangle stimulus eyes open condition duration in screen frames   
 
-const.triang_part_dur_TR = 3;                                                        % Triangle stimulus eyes partly closed condition duration in scanner TR
+const.triang_part_dur_TR = 1;                                                        % Triangle stimulus eyes partly closed condition duration in scanner TR
 const.triang_part_dur_sec = const.triang_part_dur_TR * const.TR_sec;                 % Triangle stimulus eyes partly closed duration in seconds
 const.triang_part_dur_frm = round(const.triang_part_dur_sec /scr.frame_duration);    % Triangle stimulus eyes partly closed duration in screen frames   
 
@@ -107,12 +107,12 @@ const.TRs_triang_closed = const.nb_trials_triang_closed* const.triang_closed_dur
 const.nb_trials_iti = 4; % 3 iti and final one
 const.TRs_iti = const.nb_trials_iti * const.iti_dur_TR;
 
-const.nb_trials = const.nb_trials_triang_open + const.nb_trials_triang_part + ...
-    const.nb_trials_triang_closed + const.nb_trials_iti;
+const.nb_trials = 3 * (const.nb_trials_triang_open + const.nb_trials_triang_part + ...
+    const.nb_trials_triang_closed) + const.nb_trials_iti; 
 
 
 % Final triangle settings
-const.triangle_position_order = repmat([5,4,3,4,1,3,1,2,3,2,5,3],1,const.nb_repeat_triang_open);
+const.triangle_position_order = repelem(repmat([5,4,3,4,1,3,1,2,3,2,5,3],1,const.nb_repeat_triang_open),3);
 
 const.triangle_position_txt =  {'up_left', 'up_right', 'middle', 'down_left', 'down_right'};
 

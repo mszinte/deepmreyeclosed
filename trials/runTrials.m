@@ -18,7 +18,6 @@ function expDes = runTrials(scr, const, expDes, my_key, aud)
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
 % ----------------------------------------------------------------------
 
-trial_pursuit = 0;
 for t = 1:const.nb_trials
 
     % Open video
