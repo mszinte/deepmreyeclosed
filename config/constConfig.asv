@@ -121,7 +121,7 @@ const.triangle_rotation_txt = {'up', 'right', 'down', 'left'};
 
 
 % Final sound settings 
-const.sound_txt = {'low', 'middle', 'high', 'inter-interval'};
+const.sound_txt = {''}
 
 
 % define total TR numbers and scan duration

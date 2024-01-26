@@ -36,11 +36,13 @@ for t = 1:const.nb_trials
     % Check trial
     if const.checkTrial && const.expStart == 0
         fprintf(1,'\n\n\t=================== TRIAL %3.0f ====================\n',t);
-        fprintf(1,'\n\tTask =             \t%s', const.task_txt{task});
+        fprintf(1,'\n\tTask =            \t%s', const.task_txt{task});
         if ~isnan(var1); fprintf(1,'\n\tTriangle rotation =\t%s', ...
                 const.triangle_rotation_txt{var1}); end
         if ~isnan(var2); fprintf(1,'\n\tFixation position =\t%s', ...
                 const.triangle_position_txt{var2}); end
+        if ~isnan(sound); fprintf(1,'\n\tSound =           \t%s', ...
+                const.sound_txt{sound}); end
     end
     
     % Timing
@@ -160,7 +162,9 @@ for t = 1:const.nb_trials
         if task == 1
             if nbf >= iti_onset_nbf && nbf <= iti_offset_nbf 
                 drawBullsEye(scr, const, iti_x, iti_y);
-                playSound = 0;   
+                playSound = 1;   
+         elseif nbf > triang_open_offset_nbf
+            playSound = 0;
             end
         end
         
@@ -179,8 +183,7 @@ for t = 1:const.nb_trials
             if nbf >= triang_part_onset_nbf && nbf <= triang_part_offset_nbf
                 drawBullsEye(scr, const, triang_x, triang_y);
                 playSound = 1;
-            elseif nbf > triang_part_offset_nbf
-                playSound = 0;
+ 
             end
         end
         

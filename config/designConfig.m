@@ -43,7 +43,6 @@ expDes.nb_var2 = length(expDes.twoV);
 expDes.nb_var = 2;
 
 
-
 % Triangle eyes open point location experimental loop
 ii = 0;
 
