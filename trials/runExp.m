@@ -113,7 +113,7 @@ expDes = runTrials(scr, const, expDes, my_key, aud);
     
 %tsv file
 head_txt = {'onset', 'duration', 'run_number', 'trial_number', ...
-            'task', 'triangle_rotation', 'fixation_location'};
+            'task', 'triangle_rotation', 'fixation_location', 'sound'};
 % 01 : onset
 % 02 : duration 
 % 03 : run number

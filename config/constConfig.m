@@ -92,15 +92,15 @@ const.triang_coords_all = [const.triang_coords_middle;
 
 
 % Trial settings
-const.nb_repeat_triang_open = 1;
+const.nb_repeat_triang_open = 3;
 const.nb_trials_triang_open = length(const.triang_coords_all) * const.nb_repeat_triang_open;
 const.TRs_triang_open = const.nb_trials_triang_open * const.triang_open_dur_TR;
 
-const.nb_repeat_triang_part = 1;
+const.nb_repeat_triang_part = 3;
 const.nb_trials_triang_part = length(const.triang_coords_all) * const.nb_repeat_triang_part;
 const.TRs_triang_part = const.nb_trials_triang_part * const.triang_part_dur_TR;
 
-const.nb_repeat_triang_closed = 1;
+const.nb_repeat_triang_closed = 3;
 const.nb_trials_triang_closed = length(const.triang_coords_all) * const.nb_repeat_triang_closed;
 const.TRs_triang_closed = const.nb_trials_triang_closed* const.triang_closed_dur_TR;
 
