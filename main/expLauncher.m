@@ -3,14 +3,13 @@
 % By: Sina KLING
 % Projet: DeepMReyeClosed
 
-% Experimental design : ~4min
+% Experimental design : ~7min
 % Task 1: triangle with eyes open 
 % Task 2: triangle with eyes partly closed
 % Task 3: triangle with eyes closed
 
 % TODO (Sina)
 % ----------- 
-% finish deepmryeclosed: add sound
 % check in testing room
 % see with eye tracker 
 % analyse data of eye tracker

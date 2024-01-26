@@ -148,7 +148,6 @@ for t = 1:const.nb_trials
     
     % Main diplay loop
     nbf = 0;
-    soundInterval = 0; %initialize the sound counter
     playSound = 0; 
    
 
@@ -163,8 +162,6 @@ for t = 1:const.nb_trials
             if nbf >= iti_onset_nbf && nbf <= iti_offset_nbf 
                 drawBullsEye(scr, const, iti_x, iti_y);
                 playSound = 1;   
-         elseif nbf > triang_open_offset_nbf
-            playSound = 0;
             end
         end
         
@@ -173,8 +170,6 @@ for t = 1:const.nb_trials
             if nbf >= triang_open_onset_nbf && nbf <= triang_open_offset_nbf
                 drawBullsEye(scr, const, triang_x, triang_y);
                 playSound = 1;
-            elseif nbf > triang_open_offset_nbf
-                playSound = 0;
             end
         end
         
@@ -183,7 +178,6 @@ for t = 1:const.nb_trials
             if nbf >= triang_part_onset_nbf && nbf <= triang_part_offset_nbf
                 drawBullsEye(scr, const, triang_x, triang_y);
                 playSound = 1;
- 
             end
         end
         
@@ -191,8 +185,6 @@ for t = 1:const.nb_trials
         if task == 4
             if nbf >= triang_closed_onset_nbf && nbf <= triang_closed_offset_nbf
                 playSound = 1;
-            elseif nbf > triang_closed_offset_nbf
-                playSound = 0;
             end
                      
         end
@@ -223,10 +215,10 @@ for t = 1:const.nb_trials
         % flip screen
         vbl = Screen('Flip', scr.main);
 
-        % Check if it's time to play the sound (every const.sound_interval_frm frames)
+        % Check if it's time to play the sound (every const.sound_interval_frm number of frames)
         if playSound && mod(nbf - 1, const.sound_interval_frm) == 0
             my_sound(sound, aud);
-            soundInterval = soundInterval + 1;
+           
         end
         
         % Save trials times
