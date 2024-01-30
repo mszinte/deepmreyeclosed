@@ -19,7 +19,7 @@ Screen('CloseAll'); clear all; clear mex; clear functions; close all; ...
 
 % General settings
 const.expName = 'DeepMReyeClosed';      % experiment name
-const.expStart = 1;                     % Start of a recording (0 = NO, 1 = YES)
+const.expStart = 0;                     % Start of a recording (0 = NO, 1 = YES)
 const.checkTrial = 0;                   % Print trial conditions (0 = NO, 1 = YES)
 const.mkVideo = 0;                      % Make a video (0 = NO, 1 = YES)
 

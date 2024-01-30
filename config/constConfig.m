@@ -127,7 +127,7 @@ const.fix_rad = vaDeg2pix(const.fix_radVal, scr);                           % ra
 % Sounds configurations
 const.sound_dur = 0.300;                                                    % tone duration in seconds
 
-const.iti_tones_freq = [400, 0, 400, 0, 400, 0, 400, 0, 400, 0];            % iti tone frequency list
+const.iti_tones_freq = [300, 0, 300, 0, 300, 0, 300, 0, 300, 0];            % iti tone frequency list
 const.iti_tones_dur  = [const.sound_dur,...                                 % iti tone duration list
                        const.TR_sec - const.sound_dur, ...
                        const.sound_dur,...
@@ -140,7 +140,7 @@ const.iti_tones_dur  = [const.sound_dur,...                                 % it
                        const.TR_sec - const.sound_dur];
 const.iti_tones = make_tone(aud, const.iti_tones_freq, const.iti_tones_dur);% iti tone
 
-const.trial_tones_freq = [600, 0, 700, 0, 800, 0];                          % trial tone frequency list
+const.trial_tones_freq = [440, 0, 660, 0, 880, 0];                          % trial tone frequency list
 const.trial_tones_dur  = [const.sound_dur, ...                              % trial tone duration list
                          const.TR_sec - const.sound_dur, ...
                          const.sound_dur, ...
