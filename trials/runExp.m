@@ -105,7 +105,7 @@ fprintf(1,'\n\n\tBUTTON PRESSED BY SUBJECT\n');
 
 % Write on eyetracking screen
 if const.tracker
-    drawTrialInfoEL(scr, const)
+    drawTrialInfoEL(const)
 end
 
 % Trial loop
@@ -113,15 +113,14 @@ expDes = runTrials(scr, const, expDes, my_key, aud);
     
 %tsv file
 head_txt = {'onset', 'duration', 'run_number', 'trial_number', ...
-            'task', 'triangle_rotation', 'fixation_location', 'sound'};
+            'task', 'fixation_position'};
 % 01 : onset
-% 02 : duration 
+% 02 : duration
 % 03 : run number
 % 04 : trial number
 % 05 : task
-% 06 : triangle rotation number
-% 07 : triangle fixation location
-% 08 : sound number
+% 06 : fixation position
+
 
 for head_num = 1:length(head_txt)
     behav_txt_head{head_num} = head_txt{head_num};

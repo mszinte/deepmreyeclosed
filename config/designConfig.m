@@ -22,11 +22,11 @@ function expDes = designConfig(const)
 % 03 - eyes blink task
 % 04 - eyes closed task
 
-% Var 1: Fixation posiiton
-% Order predifined
-% 01 (up_left)           02 (up_right)
-%             03 (middle)
-% 04 (down_left)         05 (down_right)
+% Var 1: Fixation position
+% Order defined in const, see const.fix_coords
+% 01 (top_left)             02 (top_right)
+%                03 (middle)
+% 04 (bottom_left)          05 (bottom_right)
 
 % Experimental loop
 expDes.nb_var = 1;
@@ -42,7 +42,7 @@ for rep = 1:const.nb_repeat_eyes_open
         trialMat_eyes_open(ii, 2) = var1;       % eye position
     end
 end
-trialMat_eyes_open = [1, nan; ...               % add intertrial interval
+trialMat_eyes_open = [1, 3; ...               % add intertrial interval
                       trialMat_eyes_open];  
 
 % Eyes blink experimental loop
@@ -56,7 +56,7 @@ for rep = 1:const.nb_repeat_eyes_blink
         trialMat_eyes_blink(ii, 2) = var1;      % eye position
     end
 end
-trialMat_eyes_blink = [1, nan; ...              % add inter-trial interval
+trialMat_eyes_blink = [1, 3; ...              % add inter-trial interval
                        trialMat_eyes_blink];
 
 % Eyes closed experimental loop
@@ -66,20 +66,18 @@ trialMat_eyes_close = zeros(const.nb_trials_eyes_close, expDes.nb_var+1) ...
 for rep = 1:const.nb_repeat_eyes_close
     for var1 = const.fix_position_order
         ii = ii + 1;
-        trialMat_eyes_close(ii, 1) = 3;         % condition
+        trialMat_eyes_close(ii, 1) = 4;         % condition
         trialMat_eyes_close(ii, 2) = var1;      % eye position
     end
 end
-trialMat_eyes_close = [1, nan; ...              % add inter-trial interval
+trialMat_eyes_close = [1, 3; ...              % add inter-trial interval
                        trialMat_eyes_close; ...
-                       1, nan];                 % add final interval
+                       1, 3];                 % add final interval
 
-                     
 % Define main matrix
 trialMat = [trialMat_eyes_open; ...
             trialMat_eyes_blink; ...
             trialMat_eyes_close];
-
 
 expDes.expMat = [zeros(const.nb_trials,2)*nan, ...
                  zeros(const.nb_trials,1)*0+const.runNum,...

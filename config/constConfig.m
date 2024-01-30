@@ -1,6 +1,6 @@
-function const = constConfig(scr, const)
+function const = constConfig(scr, const, aud)
 % ----------------------------------------------------------------------
-% const = constConfig(scr, const)
+% const = constConfig(scr, const, aud)
 % ----------------------------------------------------------------------
 % Goal of the function :
 % Define all constant configurations
@@ -8,6 +8,7 @@ function const = constConfig(scr, const)
 % Input(s) :
 % scr : struct containing screen configurations
 % const : struct containing constant configurations
+% aud : struct containing audio settings
 % ----------------------------------------------------------------------
 % Output(s):
 % const : struct containing constant configurations
@@ -26,7 +27,7 @@ const.fixation_color = const.white;
 const.background_color = const.gray; 
 
 % Time parameters
-const.TR_sec = 1.2;                                                                 % MRI time repetition in seconds
+const.TR_sec = 0.6;                                                                 % MRI time repetition in seconds
 const.TR_frm = round(const.TR_sec/scr.frame_duration);                              % MRI time repetition in seconds in screen frames
 
 %new stimulus time parameters
@@ -34,77 +35,76 @@ const.iti_dur_TR = 5;                                                           
 const.iti_dur_sec = const.iti_dur_TR * const.TR_sec;                                % Inter trial interval duration in seconds
 const.iti_dur_frm = round(const.iti_dur_sec / scr.frame_duration);                  % Inter trial interval in screen frames
 
-const.eyes_open_dur_TR = 1;                                                         % eyes open condition duration in scanner TR
-const.eyes_open_dur_sec = const.eyes_open_dur_TR * const.TR_sec;                    % eyes open condition duration in seconds
-const.open_dur_frm = round(const.eyes_open_dur_sec / scr.frame_duration);           % eyes open condition duration in screen frames   
-
-const.eyes_blink_dur_TR = 1;                                                        % eyes blink condition duration in scanner TR
-const.eyes_blink_dur_sec = const.eyes_blink_dur_TR * const.TR_sec;                  % eyes blink duration in seconds
-const.eyes_blink_dur_frm = round(const.eyes_blink_dur_sec / scr.frame_duration);    % eyes blink duration in screen frames
-
-const.eyes_close_dur_TR = 1;                                                        % eyes close condition duration in scanner TR
-const.eyes_close_dur_sec = const.eyes_close_dur_TR * const.TR_sec;                  % eyes close condition duration in seconds
-const.eyes_closed_dur_frm = round(const.eyes_close_dur_sec /scr.frame_duration;     % eyes close condition duration in screen frames  
+const.trial_dur_TR = 3;                                                             % trial duration in scanner TR
+const.trial_dur_sec = const.trial_dur_TR * const.TR_sec;                            % trial duration in seconds
+const.trial_dur_frm = round(const.trial_dur_sec / scr.frame_duration);              % trial duration in screen frames
 
 % Stim parameters
-[const.ppd] = vaDeg2pix(1, scr);                                                     % one pixel per dva
-const.dpp = 1/const.ppd;                                                             % degrees per pixel
-const.window_sizeVal = 14;                                                           % side of the display window
+[const.ppd] = vaDeg2pix(1, scr);                                                    % one pixel per dva
+const.dpp = 1/const.ppd;                                                            % degrees per pixel
+const.window_sizeVal = 14;                                                          % side of the display window
 
 % tasks
-const.task_txt = {'inter-trial interval', 'eyes open', 'eyes blink', 'eyes close'};
+const.task_txt = {'inter-trial interval', ...
+                  'eyes open', ...
+                  'eyes blink', ...
+                  'eyes close'};
 
-% trianglele task parameters
+% Fixation position
 const.triangle_size = 14;                                                           % position triangle size in dva
 const.triangle_size_px = vaDeg2pix(const.triangle_size, scr);                       % position triangle size in pixels
 
-const.triangle_coords_middle = [scr.x_mid, scr.y_mid];
-const.triangle_coords_down_right = [scr.x_mid + const.triangle_size_px /2, scr.y_mid + const.triangle_size_px /2 ]; 
-const.triangle_coords_down_left = [scr.x_mid - const.triangle_size_px /2, scr.y_mid + const.triangle_size_px /2 ];
-const.triangle_coords_up_right = [scr.x_mid + const.triangle_size_px /2, scr.y_mid - const.triangle_size_px /2 ];
-const.triangle_coords_up_left = [scr.x_mid - const.triangle_size_px /2, scr.y_mid - const.triangle_size_px /2 ];
+const.fix_middle_coords = [scr.x_mid, ...
+                           scr.y_mid];
+const.fix_bottom_right_coords = [scr.x_mid + const.triangle_size_px / 2, ...
+                                 scr.y_mid + const.triangle_size_px / 2]; 
+const.fix_bottom_left_coords = [scr.x_mid - const.triangle_size_px / 2, ...
+                                scr.y_mid + const.triangle_size_px / 2];
+const.fix_top_right_coords = [scr.x_mid + const.triangle_size_px / 2, ...
+                              scr.y_mid - const.triangle_size_px / 2];
+const.fix_top_left_coords = [scr.x_mid - const.triangle_size_px / 2, ... 
+                             scr.y_mid - const.triangle_size_px / 2];
+% 01 (top_left)             02 (top_right)
+%                03 (middle)
+% 04 (bottom_left)          05 (bottom_right)
 
-const.triangle_coords_all = [const.triangle_coords_middle;
-                             const.triangle_coords_down_right;
-                             const.triangle_coords_down_left;
-                             const.triangle_coords_middle;
-                             const.triangle_coords_down_left;
-                             const.triangle_coords_up_left;
-                             const.triangle_coords_middle;
-                             const.triangle_coords_up_left;
-                             const.triangle_coords_up_right;
-                             const.triangle_coords_middle;
-                             const.triangle_coords_up_right;
-                             const.triangle_coords_down_right]; 
-                         
-const.fix_positions = length(const.triangle_coords_all);
-                         
+const.fix_coords = [const.fix_top_left_coords; ...
+                    const.fix_top_right_coords; ...
+                    const.fix_middle_coords; ...
+                    const.fix_bottom_left_coords; ...
+                    const.fix_bottom_right_coords];
+                
+const.fix_coords_txt =  {'top left', ...
+                         'top right', ... 
+                         'middle', ...
+                         'bottom left', ...
+                         'down right'};
+
+const.fix_position_order = [5, 4, 3, ...    % bottom right ==> bottom left  ==> middle
+                            4, 1, 3, ...    % bottom left  ==> top left     ==> middle
+                            1, 2, 3, ...    % top left     ==> top right    ==> middle
+                            2, 5, 3];       % top right    ==> bottom right ==> middle 
+                        
+const.fix_steps = length(const.fix_position_order); 
+
 % Trial settings
 const.nb_repeat_eyes_open = 3;
-const.nb_trials_eyes_open = const.fix_positions * const.nb_repeat_eyes_open;
-const.TRs_eyes_open = const.nb_trials_eyes_open * const.eyes_open_dur_TR;
+const.nb_trials_eyes_open = const.fix_steps * const.nb_repeat_eyes_open;
+const.TRs_eyes_open = const.nb_trials_eyes_open * const.trial_dur_TR;
 
 const.nb_repeat_eyes_blink = 3;
-const.nb_trials_eyes_blink = const.fix_positions * const.nb_repeat_eyes_blink;
-const.TRs_eyes_blink = const.nb_trials_eyes_blink * const.eyes_blink_dur_TR;
+const.nb_trials_eyes_blink = const.fix_steps * const.nb_repeat_eyes_blink;
+const.TRs_eyes_blink = const.nb_trials_eyes_blink * const.trial_dur_TR;
 
 const.nb_repeat_eyes_close = 3;
-const.nb_trials_eyes_close = const.fix_positions * const.nb_repeat_eyes_close;
-const.TRs_eyes_close = const.nb_trials_eyes_close * const.eyes_close_dur_TR;
+const.nb_trials_eyes_close = const.fix_steps * const.nb_repeat_eyes_close;
+const.TRs_eyes_close = const.nb_trials_eyes_close * const.trial_dur_TR;
 
 const.nb_trials_iti = 4; % 3 iti and final one
 const.TRs_iti = const.nb_trials_iti * const.iti_dur_TR;
 
 const.nb_trials = const.nb_trials_eyes_open + const.nb_trials_eyes_blink + ...
     const.nb_trials_eyes_close + const.nb_trials_iti; 
-
-% Final position settings
-const.fix_position_order = [5,4,3,4,1,3,1,2,3,2,5,3];
-const.fix_position_txt =  {'up left', 'up right', 'middle', 'down left', ...
-                           'down right'};
-
-% Final sound settings 
-const.sound_txt = {'low tone', 'middle tone', 'high tone', 'ITI tone'};
 
 % define total TR numbers and scan duration
 if const.scanner
@@ -123,6 +123,33 @@ const.fix_radVal = 0.25*const.fix_out_rim_radVal;                           % ra
 const.fix_out_rim_rad = vaDeg2pix(const.fix_out_rim_radVal, scr);           % radius of outer circle of fixation bull's eye in pixels
 const.fix_rim_rad = vaDeg2pix(const.fix_rim_radVal, scr);                   % radius of intermediate circle of fixation bull's eye in pixels
 const.fix_rad = vaDeg2pix(const.fix_radVal, scr);                           % radius of inner circle of fixation bull's eye in pixels
+
+% Sounds configurations
+const.sound_dur = 0.300;                                                    % tone duration in seconds
+
+const.iti_tones_freq = [300, 0, 300, 0, 300, 0, 300, 0, 300, 0];            % iti tone frequency list
+const.iti_tones_dur  = [const.sound_dur,...                                 % iti tone duration list
+                       const.TR_sec - const.sound_dur, ...
+                       const.sound_dur,...
+                       const.TR_sec - const.sound_dur, ...
+                       const.sound_dur,...
+                       const.TR_sec - const.sound_dur, ...
+                       const.sound_dur,...
+                       const.TR_sec - const.sound_dur, ...
+                       const.sound_dur,...
+                       const.TR_sec - const.sound_dur];
+const.iti_tones = make_tone(aud, const.iti_tones_freq, const.iti_tones_dur);% iti tone
+
+const.trial_tones_freq = [600, 0, 700, 0, 900, 0];                          % trial tone frequency list
+const.trial_tones_dur  = [const.sound_dur, ...                              % trial tone duration list
+                         const.TR_sec - const.sound_dur, ...
+                         const.sound_dur, ...
+                         const.TR_sec - const.sound_dur, ...
+                         const.sound_dur, ...
+                         const.TR_sec - const.sound_dur];
+
+const.trial_tones = make_tone(aud, const.trial_tones_freq, ...
+                                  const.trial_tones_dur);                   % trial tone
 
 % Personalised eyelink calibrations
 angle = 0:pi/3:5/3*pi;

@@ -16,6 +16,7 @@ function expDes = runTrials(scr, const, expDes, my_key, aud)
 % expDes : struct containing all the variable design configurations.
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
+% Edited by Sina KLING (sina.kling@outlook.de)
 % ----------------------------------------------------------------------
 
 for t = 1:const.nb_trials
@@ -27,76 +28,37 @@ for t = 1:const.nb_trials
     
     % Compute and simplify var and rand
     task = expDes.expMat(t, 5);
-    var1 = expDes.expMat(t, 6); 
-    var2 = expDes.expMat(t,7);
-    sound = expDes.expMat(t,8);
+    var1 = expDes.expMat(t, 6);
     
-   
-
     % Check trial
     if const.checkTrial && const.expStart == 0
         fprintf(1,'\n\n\t=================== TRIAL %3.0f ====================\n',t);
         fprintf(1,'\n\tTask =            \t%s', const.task_txt{task});
-        if ~isnan(var1); fprintf(1,'\n\tTriangle rotation =\t%s', ...
-                const.triangle_rotation_txt{var1}); end
-        if ~isnan(var2); fprintf(1,'\n\tFixation position =\t%s', ...
-                const.triangle_position_txt{var2}); end
-        if ~isnan(sound); fprintf(1,'\n\tSound =           \t%s', ...
-                const.sound_txt{sound}); end
+        if ~isnan(var1); fprintf(1,'\n\tFixation position =\t%s', ...
+                const.fix_coords_txt{var1}); end
     end
     
     % Timing
-    switch task
-        case 1
-            iti_onset_nbf = 1;
-            iti_offset_nbf = const.iti_dur_frm;
-            trial_offset = iti_offset_nbf;
-        case 2
-            triang_open_onset_nbf = 1;
-            triang_open_offset_nbf = const.triang_open_dur_frm;
-            trial_offset = triang_open_offset_nbf;
-        case 3
-            triang_part_onset_nbf = 1;
-            triang_part_offset_nbf = const.triang_part_dur_frm;
-            trial_offset = triang_part_offset_nbf;
-        case 4
-            triang_closed_onset_nbf = 1;
-            triang_closed_offset_nbf = const.triang_closed_dur_frm;
-            trial_offset = triang_closed_offset_nbf;
-    end
-    
-    % Compute coordinates inter trial interval
     if task == 1
-        iti_x = scr.x_mid;
-        iti_y = scr.y_mid;
+        trial_offset_nbf = const.iti_dur_frm;
+    else
+        trial_offset_nbf = const.trial_dur_frm;
     end
-
-    % Compute coordinates triangle
-    if task == 2 
-        triang_coord = [const.triang_coords_up_left;const.triang_coords_up_right;...
-                        const.triang_coords_middle; const.triang_coords_down_left;...
-                        const.triang_coords_down_right];
-
-        triang_x = triang_coord(var2,1); 
-        triang_y = triang_coord(var2,2);
-    end 
-
-    % Compute coordinates triangle
-    if task == 3
-        triang_coord = [const.triang_coords_up_left;const.triang_coords_up_right;...
-                        const.triang_coords_middle; const.triang_coords_down_left;...
-                        const.triang_coords_down_right];
-
-        triang_x = triang_coord(var2,1); 
-        triang_y = triang_coord(var2,2);
-    end
-   
     
-
+    % Compute fixation coordinates
+    fix_coords = const.fix_coords(var1, :);
+    
+    % Load the sound
+    if task == 1
+        PsychPortAudio('FillBuffer', aud.stim_handle, const.iti_tone);
+    else
+        PsychPortAudio('FillBuffer' ,aud.stim_handle, const.trial_tone);
+    end
+    
     % Wait first MRI trigger
     if t == 1
         Screen('FillRect',scr.main,const.background_color);
-        drawBullsEye(scr, const, scr.x_mid, scr.y_mid);
+        drawBullsEye(scr, const, scr.x_mid, scr.y_mid, 0);
         Screen('Flip',scr.main);
     
         first_trigger = 0;
@@ -140,7 +102,6 @@ for t = 1:const.nb_trials
         if const.tracker; Eyelink('message', '%s', log_txt); end
     end
     
-    
     % Write in edf file
     if const.tracker
         Eyelink('message', '%s', sprintf('trial %i started\n', t));
@@ -148,45 +109,26 @@ for t = 1:const.nb_trials
     
     % Main diplay loop
     nbf = 0;
-    playSound = 0; 
-   
-
-    while nbf < trial_offset
+    play_sound = 0;
+    while nbf < trial_offset_nbf
         % Flip count
         nbf = nbf + 1;
-    
         Screen('FillRect', scr.main, const.background_color)
     
-        % Inter-trial interval
-        if task == 1
-            if nbf >= iti_onset_nbf && nbf <= iti_offset_nbf 
-                drawBullsEye(scr, const, iti_x, iti_y);
-                playSound = 1;   
-            end
+        % Inter-trial interval / eyes open / eyes blink
+        if task == 1 || task == 2 
+            drawBullsEye(scr, const, fix_coords(1), fix_coords(2), 1);
+        elseif task == 3
+            drawBullsEye(scr, const, fix_coords(1), fix_coords(2), 0);
+        elseif task == 4
+            % eyes closed no dot
         end
-        
-        % Triangle eyes open
-        if task == 2
-            if nbf >= triang_open_onset_nbf && nbf <= triang_open_offset_nbf
-                drawBullsEye(scr, const, triang_x, triang_y);
-                playSound = 1;
-            end
-        end
-        
-        % Triangle eyes partly closed
-        if task == 3
-            if nbf >= triang_part_onset_nbf && nbf <= triang_part_offset_nbf
-                drawBullsEye(scr, const, triang_x, triang_y);
-                playSound = 1;
-            end
-        end
-        
-        % Freeview task
-        if task == 4
-            if nbf >= triang_closed_onset_nbf && nbf <= triang_closed_offset_nbf
-                playSound = 1;
-            end
-                     
+
+        % Play sound
+        if ~play_sound
+            PsychPortAudio('Start', aud.stim_handle, aud.slave_rep, ...
+                aud.slave_when, aud.slave_waitforstart);
+            play_sound = 1;
         end
 
         % Check keyboard
@@ -214,50 +156,9 @@ for t = 1:const.nb_trials
         
         % flip screen
         vbl = Screen('Flip', scr.main);
-
-        % Check if it's time to play the sound (every const.sound_interval_frm number of frames)
-        if playSound && mod(nbf - 1, const.sound_interval_frm) == 0
-            my_sound(sound, aud);
-           
-        end
         
-        % Save trials times
-        if task == 1
-            if nbf == iti_onset_nbf
-                trial_on = vbl;
-                log_txt = sprintf('iti %i onset at %f', t, vbl);
-                if const.tracker; Eyelink('message','%s',log_txt); end
-            elseif nbf == iti_offset_nbf
-                log_txt = sprintf('iti %i offset at %f', t, vbl);
-                if const.tracker; Eyelink('message','%s',log_txt); end
-            end
-        elseif task == 2
-            if nbf == triang_open_onset_nbf
-                trial_on = vbl;
-                log_txt = sprintf('triangle open %i onset at %f', t, vbl);
-                if const.tracker; Eyelink('message','%s',log_txt); end
-            elseif nbf == triang_open_offset_nbf
-                log_txt = sprintf('triangle open %i offset at %f', t, vbl);
-                if const.tracker; Eyelink('message','%s',log_txt); end
-            end
-        elseif task == 3
-            if nbf == triang_part_onset_nbf
-                trial_on = vbl;
-                log_txt = sprintf('triangle part open %i onset at %f', t, vbl);
-                if const.tracker; Eyelink('message','%s',log_txt); end
-            elseif nbf == triang_part_offset_nbf
-                log_txt = sprintf('triangle part open %i offset at %f', t, vbl);
-                if const.tracker; Eyelink('message','%s',log_txt); end
-            end
-        elseif task == 4
-            if nbf == triang_closed_onset_nbf
-                trial_on = vbl;
-                log_txt = sprintf('triangle closed %i onset at %f', t, vbl);
-                if const.tracker; Eyelink('message','%s',log_txt); end
-            elseif nbf == triang_closed_offset_nbf
-                log_txt = sprintf('triangle closed %i offset at %f', t, vbl);
-                if const.tracker; Eyelink('message','%s',log_txt); end
-            end
+        if nbf == trial_offset_nbf
+            trial_on = vbl;
         end
     end
     expDes.expMat(t, 1) = trial_on;
@@ -267,4 +168,6 @@ end
 % Write in log/edf
 if const.tracker
     Eyelink('message', '%s', sprintf('trial %i ended\n', t));
+end
+
 end

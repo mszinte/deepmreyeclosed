@@ -10,6 +10,9 @@
 
 % TODO (Sina)
 % ----------- 
+% fix things to make video faster
+% put sounds with video
+% make video
 % check in testing room
 % see with eye tracker 
 % analyse data of eye tracker
