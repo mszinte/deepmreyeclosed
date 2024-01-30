@@ -50,9 +50,9 @@ for t = 1:const.nb_trials
     
     % Load the sound
     if task == 1
-        PsychPortAudio('FillBuffer', aud.stim_handle, const.iti_tone);
+        PsychPortAudio('FillBuffer', aud.stim_handle, const.iti_tones);
     else
-        PsychPortAudio('FillBuffer' ,aud.stim_handle, const.trial_tone);
+        PsychPortAudio('FillBuffer' ,aud.stim_handle, const.trial_tones);
     end
     
     % Wait first MRI trigger
@@ -147,11 +147,13 @@ for t = 1:const.nb_trials
         
         % Create movie
         if const.mkVideo
-            expDes.vid_num = expDes.vid_num + 1;
-            image_vid = Screen('GetImage', scr.main);
-            imwrite(image_vid,sprintf('%s_frame_%i.png', ...
-                const.movie_image_file, expDes.vid_num))
-            writeVideo(const.vid_obj,image_vid);
+            if mod(nbf, const.TR_frm) == 1
+                expDes.vid_num = expDes.vid_num + 1;
+                image_vid = Screen('GetImage', scr.main);
+                imwrite(image_vid,sprintf('%s_frame_%i.png', ...
+                    const.movie_image_file, expDes.vid_num))
+                writeVideo(const.vid_obj,image_vid);
+            end
         end
         
         % flip screen

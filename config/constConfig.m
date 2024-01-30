@@ -27,7 +27,7 @@ const.fixation_color = const.white;
 const.background_color = const.gray; 
 
 % Time parameters
-const.TR_sec = 0.6;                                                                 % MRI time repetition in seconds
+const.TR_sec = 1.2;                                                                 % MRI time repetition in seconds
 const.TR_frm = round(const.TR_sec/scr.frame_duration);                              % MRI time repetition in seconds in screen frames
 
 %new stimulus time parameters
@@ -197,4 +197,4 @@ const.validCoord =round([vx(1), vy(1),...                                   % 1.
     vx(8), vy(8),...                                                        % 11. right up
     vx(11), vy(11),...                                                      % 12. left down
     vx(12), vy(12)]);                                                       % 13. right down
-end
+ end
