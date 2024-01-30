@@ -62,20 +62,10 @@ bgCol = 0;
 eyeLinkClearScreen(bgCol);
 
 % Draw Stimulus
-eyeLinkDrawBox(const.triangle_coords_middle(1), const.triangle_coords_middle(2), ...
-    const.fix_out_rim_rad * 2, const.fix_out_rim_rad * 2, 2, frameCol, ftCol);
-
-eyeLinkDrawBox(const.triangle_coords_down_right(1), const.triangle_coords_down_right(2), ...
-    const.fix_out_rim_rad * 2, const.fix_out_rim_rad * 2, 2, frameCol, ftCol);
-
-eyeLinkDrawBox(const.triangle_coords_down_left(1), const.triangle_coords_down_left(2), ...
-    const.fix_out_rim_rad * 2, const.fix_out_rim_rad * 2, 2, frameCol, ftCol);
-
-eyeLinkDrawBox(const.triangle_coords_up_right(1), const.triangle_coords_up_right(2), ...
-    const.fix_out_rim_rad * 2, const.fix_out_rim_rad * 2, 2, frameCol, ftCol);
-
-eyeLinkDrawBox(const.triangle_coords_up_left(1), const.triangle_coords_up_left(2), ...
-    const.fix_out_rim_rad * 2, const.fix_out_rim_rad * 2, 2, frameCol, ftCol);
+for tpos = 1:size(const.fix_coords,1)
+    eyeLinkDrawBox(const.fix_coords(tpos,1), const.fix_coords(tpos,2), ...
+        const.fix_out_rim_rad * 2, const.fix_out_rim_rad * 2, 2, frameCol, ftCol);
+end
 
 WaitSecs(0.1);
 
