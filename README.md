@@ -5,10 +5,7 @@ With :    Uriel LASCOMBES, Matthias NAU, Guillaume MASSON, Martin SZINTE<br/>
 Version:  1.0<br/>
 
 ## Version description
-Eye movement tasks to gather training data for calibrating DeepMReye network
-and extend this method to eye close measures.
+Eye movement tasks to extend DeepMReye to eye closed measures.
 
 ## Experiment runner
 * run the experiment using main/expLauncher.m
-
-
