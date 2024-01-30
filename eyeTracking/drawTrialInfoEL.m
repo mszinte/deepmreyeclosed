@@ -1,19 +1,18 @@
-function drawTrialInfoEL(scr,const)
+function drawTrialInfoEL(const)
 % ----------------------------------------------------------------------
-% drawTrialInfoEL(scr,const)
+% drawTrialInfoEL(const)
 % ----------------------------------------------------------------------
 % Goal of the function :
 % Draw on the eyelink display the experiment configuration
 % ----------------------------------------------------------------------
 % Input(s) :
-% scr : struct containing screen configurations
 % const : struct containing constant configurations
-% expDes : struct containg experimental design
 % ----------------------------------------------------------------------
 % Output(s):
 % none
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
+% Edited by Sina KLING (sina.kling@outlook.de)
 % ----------------------------------------------------------------------
 
 % o--------------------------------------------------------------------o
@@ -63,10 +62,10 @@ bgCol = 0;
 eyeLinkClearScreen(bgCol);
 
 % Draw Stimulus
-% Fixation box in screen center
-rect_ctr = [scr.x_mid, scr.y_mid];
-eyeLinkDrawBox(rect_ctr(1), rect_ctr(2), const.fix_out_rim_rad * 2, ...
-    const.fix_out_rim_rad * 2, 2, frameCol, ftCol);
+for tpos = 1:size(const.fix_coords,1)
+    eyeLinkDrawBox(const.fix_coords(tpos,1), const.fix_coords(tpos,2), ...
+        const.fix_out_rim_rad * 2, const.fix_out_rim_rad * 2, 2, frameCol, ftCol);
+end
 
 WaitSecs(0.1);
 
