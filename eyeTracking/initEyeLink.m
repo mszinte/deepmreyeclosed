@@ -30,9 +30,9 @@ eyetrack.backgroundcolour = const.background_color;
 eyetrack.fixation_outer_rim_rad = const.fix_out_rim_rad;
 eyetrack.fixation_rim_rad = const.fix_rim_rad;
 eyetrack.fixation_rad = const.fix_rad;
-eyetrack.fixation_outer_rim_color = const.fixation_color-const.background_color;
-eyetrack.fixation_rim_color = -(const.fixation_color-const.background_color);
-eyetrack.fixation_color = const.fixation_color-const.background_color;
+eyetrack.fixation_outer_rim_color = const.fixation_color;
+eyetrack.fixation_rim_color = -const.background_color;
+eyetrack.fixation_color = const.fixation_color;
 eyetrack.txtCol = 15;
 eyetrack.bgCol = 0;
 
