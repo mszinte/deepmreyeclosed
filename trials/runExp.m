@@ -28,6 +28,15 @@ if const.mkVideo
     const.vid_obj = VideoWriter(const.movie_file, 'MPEG-4');
     const.vid_obj.FrameRate = 1/const.TR_sec;
 	const.vid_obj.Quality = 100;
+
+
+    % Audio settings
+    const.audio_file = sprintf('%s/audio.wav', const.vid_folder);
+    % Initialize a matrix to store tones
+    max_num_samples = 287995;%round(sum(const.iti_tones_dur) * aud.master_rate);
+    const.audio_matrix = zeros(aud.master_nChannels, max_num_samples, const.nb_trials);
+       
+    
 end
 
 % Save all config at start of the block
@@ -108,8 +117,19 @@ if const.tracker
     drawTrialInfoEL(const)
 end
 
+
+
+
 % Trial loop
 expDes = runTrials(scr, const, expDes, my_key, aud);
+
+
+% Save audio
+if const.mkVideo
+    % Save the combined matrix to a .wav file
+    combined_tones = reshape(const.audio_matrix, aud.master_nChannels, []);
+    audiowrite(const.audio_file, combined_tones', aud.master_rate);
+end
     
 %tsv file
 head_txt = {'onset', 'duration', 'run_number', 'trial_number', ...
