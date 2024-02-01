@@ -51,8 +51,18 @@ for t = 1:const.nb_trials
     % Load the sound
     if task == 1
         PsychPortAudio('FillBuffer', aud.stim_handle, const.iti_tones);
+        if const.mkVideo
+            % Store sound
+            [num_channels_tone, num_samples_tone] = size(const.iti_tones);
+            const.audio_matrix(:, 1:num_samples_tone, t) = const.iti_tones;
+        end
     else
         PsychPortAudio('FillBuffer' ,aud.stim_handle, const.trial_tones);
+        if const.mkVideo
+            % Store sound
+            [num_channels_tone, num_samples_tone] = size(const.trial_tones);
+            const.audio_matrix(:, 1:num_samples_tone, t) = const.trial_tones;
+        end
     end
     
     % Wait first MRI trigger
@@ -153,6 +163,7 @@ for t = 1:const.nb_trials
                 imwrite(image_vid,sprintf('%s_frame_%i.png', ...
                     const.movie_image_file, expDes.vid_num))
                 writeVideo(const.vid_obj,image_vid);
+
             end
         end
         
@@ -163,6 +174,9 @@ for t = 1:const.nb_trials
             trial_on = vbl;
         end
     end
+
+    
+
     expDes.expMat(t, 1) = trial_on;
     expDes.expMat(t, 2) = vbl - trial_on;
 end

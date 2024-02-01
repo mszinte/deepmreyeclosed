@@ -78,7 +78,7 @@ const.fix_coords_txt =  {'top left', ...
                          'top right', ... 
                          'middle', ...
                          'bottom left', ...
-                         'down right'};
+                         'bottom right'};
 
 const.fix_position_order = [5, 4, 3, ...    % bottom right ==> bottom left  ==> middle
                             4, 1, 3, ...    % bottom left  ==> top left     ==> middle
@@ -88,15 +88,15 @@ const.fix_position_order = [5, 4, 3, ...    % bottom right ==> bottom left  ==> 
 const.fix_steps = length(const.fix_position_order); 
 
 % Trial settings
-const.nb_repeat_eyes_open = 3;
+const.nb_repeat_eyes_open = 2;
 const.nb_trials_eyes_open = const.fix_steps * const.nb_repeat_eyes_open;
 const.TRs_eyes_open = const.nb_trials_eyes_open * const.trial_dur_TR;
 
-const.nb_repeat_eyes_blink = 3;
+const.nb_repeat_eyes_blink = 2;
 const.nb_trials_eyes_blink = const.fix_steps * const.nb_repeat_eyes_blink;
 const.TRs_eyes_blink = const.nb_trials_eyes_blink * const.trial_dur_TR;
 
-const.nb_repeat_eyes_close = 3;
+const.nb_repeat_eyes_close = 2;
 const.nb_trials_eyes_close = const.fix_steps * const.nb_repeat_eyes_close;
 const.TRs_eyes_close = const.nb_trials_eyes_close * const.trial_dur_TR;
 
