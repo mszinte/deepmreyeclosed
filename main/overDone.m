@@ -32,8 +32,10 @@ fclose(const.behav_file_fid);
 
 % Combine video and sound 
 if ~ispc
-    system(sprintf('/usr/local/bin/ffmpeg -i %s -i %s %s.mp4',...
-        const.movie_file, const.vid_audio_file, const.vid_folder));
+    if const.mkVideo
+        system(sprintf('/usr/local/bin/ffmpeg -i %s -i %s %s.mp4',...
+            const.movie_file, const.vid_audio_file, const.vid_folder));
+    end
 end
 
 % Transfer .edf file
