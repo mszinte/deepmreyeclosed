@@ -38,6 +38,13 @@ if ~ispc
     end
 end
 
+if ispc
+    if const.mkVideo
+        system(sprintf('ffmpeg -i %s -i %s %s.mp4',...
+            const.movie_file, const.vid_audio_file, const.vid_folder));
+    end
+end
+
 % Transfer .edf file
 if const.tracker
     statRecFile = Eyelink('ReceiveFile', const.eyetrack_temp_file, ...
