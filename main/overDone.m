@@ -13,6 +13,7 @@ function overDone(const, my_key)
 % none
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
+% Edited by Sina KLING (sina.kling@outlook.de)
 % ----------------------------------------------------------------------
 
 % Stop recording the keyboard
@@ -28,6 +29,12 @@ end
 
 % Close all fid
 fclose(const.behav_file_fid);
+
+% Combine video and sound 
+if ~ispc
+    system(sprintf('/usr/local/bin/ffmpeg -i %s -i %s %s.mp4',...
+        const.movie_file, const.vid_audio_file, const.vid_folder));
+end
 
 % Transfer .edf file
 if const.tracker

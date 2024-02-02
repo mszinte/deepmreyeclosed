@@ -34,6 +34,6 @@ for tStim = 1:max(size(tone_freq))
 end
 
 tone = stimAll.* rampAll;
-plot(1:size(tone,2),tone(1,:))
+%plot(1:size(tone,2),tone(1,:))
 
 end

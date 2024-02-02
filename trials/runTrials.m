@@ -8,12 +8,11 @@ function expDes = runTrials(scr, const, expDes, my_key, aud)
 % Input(s) :
 % scr : struct containing screen configurations
 % const : struct containing constant configurations
-% expDes : struct containg experimental design
+% expDes : struct contain experimental design and trial specs
 % my_key : structure containing keyboard configurations
 % ----------------------------------------------------------------------
 % Output(s):
-% resMat : experimental results (see below)
-% expDes : struct containing all the variable design configurations.
+% expDes : struct contain experimental design and trial specs
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
 % Edited by Sina KLING (sina.kling@outlook.de)
@@ -52,16 +51,12 @@ for t = 1:const.nb_trials
     if task == 1
         PsychPortAudio('FillBuffer', aud.stim_handle, const.iti_tones);
         if const.mkVideo
-            % Store sound
-            [num_channels_tone, num_samples_tone] = size(const.iti_tones);
-            const.audio_matrix(:, 1:num_samples_tone, t) = const.iti_tones;
+            expDes.vid_audio_mat = [expDes.vid_audio_mat, const.iti_tones];
         end
     else
         PsychPortAudio('FillBuffer' ,aud.stim_handle, const.trial_tones);
         if const.mkVideo
-            % Store sound
-            [num_channels_tone, num_samples_tone] = size(const.trial_tones);
-            const.audio_matrix(:, 1:num_samples_tone, t) = const.trial_tones;
+            expDes.vid_audio_mat = [expDes.vid_audio_mat, const.trial_tones];
         end
     end
     
@@ -98,7 +93,7 @@ for t = 1:const.nb_trials
                 end
                 if keyPressed
                     if keyCode(my_key.escape) && const.expStart == 0
-                        overDone(const, my_key)
+                        overDone(const, my_key);
                     elseif keyCode(my_key.mri_tr)
                         first_trigger = 1;
                     end
@@ -151,9 +146,12 @@ for t = 1:const.nb_trials
         end
         if keyPressed
             if keyCode(my_key.escape) && const.expStart == 0
-                overDone(const, my_key)
+                overDone(const, my_key);
             end
         end
+        
+        % flip screen
+        vbl = Screen('Flip', scr.main);
         
         % Create movie
         if const.mkVideo
@@ -163,20 +161,13 @@ for t = 1:const.nb_trials
                 imwrite(image_vid,sprintf('%s_frame_%i.png', ...
                     const.movie_image_file, expDes.vid_num))
                 writeVideo(const.vid_obj,image_vid);
-
             end
         end
-        
-        % flip screen
-        vbl = Screen('Flip', scr.main);
         
         if nbf == trial_offset_nbf
             trial_on = vbl;
         end
     end
-
-    
-
     expDes.expMat(t, 1) = trial_on;
     expDes.expMat(t, 2) = vbl - trial_on;
 end
