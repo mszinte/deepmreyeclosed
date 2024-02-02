@@ -22,7 +22,7 @@ const.expName = 'DeepMReyeClosed';      % experiment name
 const.expStart = 0;                     % Start of a recording (0 = NO, 1 = YES)
 const.checkTrial = 0;                   % Print trial conditions (0 = NO, 1 = YES)
 const.mkVideo = 1;                      % Make a video (0 = NO, 1 = YES)
-
+ 
 % External controls
 const.tracker = 0;                      % run with eye tracker (0 = NO, 1 = YES)
 const.comp = 1;                         % run in which computer (1 = MRI; 2 = Diplay++)

@@ -8,14 +8,16 @@ function const = runExp(scr, const, expDes, my_key, eyetrack, aud)
 % Input(s) :
 % scr : struct containing screen configurations
 % const : struct containing constant configurations
-% expDes : struct containg experimental design
+% expDes : struct contain experimental design and trial specs
 % my_key : structure containing keyboard configurations
 % eyetrack : structure containing eyetracking configurations
+% aud : struct containing audio settings
 % ----------------------------------------------------------------------
 % Output(s):
 % const : struct containing constant configurations
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
+% Edited by Sina KLING (sina.kling@outlook.de)
 % ----------------------------------------------------------------------
 
 % Configuration of videos
@@ -23,20 +25,13 @@ if const.mkVideo
     const.vid_folder = sprintf('others/movie/%s', const.task);
     if ~isfolder(const.vid_folder); mkdir(const.vid_folder); end
     const.movie_image_file = sprintf('%s/img', const.vid_folder);
-    const.movie_file = sprintf('%s.mp4', const.vid_folder);
+    const.movie_file = sprintf('%s_video.mp4', const.vid_folder);
     expDes.vid_num = 0;
     const.vid_obj = VideoWriter(const.movie_file, 'MPEG-4');
     const.vid_obj.FrameRate = 1/const.TR_sec;
 	const.vid_obj.Quality = 100;
-
-
-    % Audio settings
-    const.audio_file = sprintf('%s/audio.wav', const.vid_folder);
-    % Initialize a matrix to store tones
-    max_num_samples = 287995;%round(sum(const.iti_tones_dur) * aud.master_rate);
-    const.audio_matrix = zeros(aud.master_nChannels, max_num_samples, const.nb_trials);
-       
-    
+    expDes.vid_audio_mat = [];
+    const.vid_audio_file = sprintf('%s_audio.mp4', const.vid_folder);
 end
 
 % Save all config at start of the block
@@ -61,7 +56,7 @@ if const.tracker
     eyeLinkClearScreen(eyetrack.bgCol);
     eyeLinkDrawText(scr.x_mid, scr.y_mid, eyetrack.txtCol,...
         'CALIBRATION INSTRUCTION - PRESS SPACE');
-    instructionsIm(scr, const, my_key, 'Calibration', 0);
+    instructionsIm(scr, const, aud, my_key, 'Calibration', 0);
     calibresult = EyelinkDoTrackerSetup(eyetrack);
     if calibresult == eyetrack.TERMINATE_KEY
         return
@@ -106,7 +101,7 @@ if const.tracker
     eyeLinkDrawText(scr.x_mid, scr.y_mid, eyetrack.txtCol, ...
         'TASK INSTRUCTIONS - PRESS SPACE')
 end
-instructionsIm(scr, const, my_key, const.task, 0);
+instructionsIm(scr, const, aud, my_key, const.task, 0);
 for keyb = 1:size(my_key.keyboard_idx, 2)
     KbQueueFlush(my_key.keyboard_idx(keyb));
 end
@@ -123,14 +118,6 @@ end
 % Trial loop
 expDes = runTrials(scr, const, expDes, my_key, aud);
 
-
-% Save audio
-if const.mkVideo
-    % Save the combined matrix to a .wav file
-    combined_tones = reshape(const.audio_matrix, aud.master_nChannels, []);
-    audiowrite(const.audio_file, combined_tones', aud.master_rate);
-end
-    
 %tsv file
 head_txt = {'onset', 'duration', 'run_number', 'trial_number', ...
             'task', 'fixation_position'};
@@ -181,7 +168,7 @@ for trial = 1:const.nb_trials
 end
 
 % End messages
-instructionsIm(scr,const,my_key,'End',1); 
+instructionsIm(scr, const, aud, my_key,'End',1); 
 
 % Save all config at the end of the block (overwrite start made at start)
 config.scr = scr; 
@@ -191,6 +178,11 @@ config.my_key = my_key;
 config.eyetrack = eyetrack;
 config.aud = aud;
 save(const.mat_file,'config');
+
+% Make video sounds
+if ~isempty(expDes.vid_audio_mat)
+    audiowrite(const.vid_audio_file, expDes.vid_audio_mat', aud.master_rate);
+end
 
 % Stop Eyetracking
 if const.tracker

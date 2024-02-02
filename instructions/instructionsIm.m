@@ -1,4 +1,4 @@
-function instructionsIm(scr, const, my_key, nameImage, exitFlag)
+function instructionsIm(scr, const, aud, my_key, nameImage, exitFlag)
 % ----------------------------------------------------------------------
 % instructionsIm(scr, const, my_key, nameImage, exitFlag)
 % ----------------------------------------------------------------------
@@ -8,6 +8,7 @@ function instructionsIm(scr, const, my_key, nameImage, exitFlag)
 % Input(s) :
 % scr : main window pointer.
 % const : struct containing all the constant configurations.
+% aud : struct containing audio settings
 % nameImage : name of the file image to display
 % exitFlag : if = 1 (quit after 3 sec)
 % ----------------------------------------------------------------------
@@ -15,6 +16,7 @@ function instructionsIm(scr, const, my_key, nameImage, exitFlag)
 % (none)
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
+% Edited by Sina KLING (sina.kling@outlook.de)
 % ----------------------------------------------------------------------
 
 dirImageFile = 'instructions/image/';

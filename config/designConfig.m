@@ -10,7 +10,7 @@ function expDes = designConfig(const)
 % const : struct containing constant configurations
 % ----------------------------------------------------------------------
 % Output(s):
-% expDes : struct containg experimental design
+% expDes : struct contain experimental design and trial specs
 % ----------------------------------------------------------------------
 % Function created by Martin SZINTE (martin.szinte@gmail.com)
 % Edited by Sina KLING (sina.kling@outlook.de)
