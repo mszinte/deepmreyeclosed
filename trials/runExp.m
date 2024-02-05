@@ -180,8 +180,10 @@ config.aud = aud;
 save(const.mat_file,'config');
 
 % Make video sounds
-if ~isempty(expDes.vid_audio_mat)
-    audiowrite(const.vid_audio_file, expDes.vid_audio_mat', aud.master_rate);
+if const.mkVideo
+    if ~isempty(expDes.vid_audio_mat)
+        audiowrite(const.vid_audio_file, expDes.vid_audio_mat', aud.master_rate);
+    end
 end
 
 % Stop Eyetracking
