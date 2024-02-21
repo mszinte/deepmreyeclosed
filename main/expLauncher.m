@@ -19,15 +19,15 @@ Screen('CloseAll'); clear all; clear mex; clear functions; close all; ...
 
 % General settings
 const.expName = 'DeepMReyeClosed';      % experiment name
-const.expStart = 1;                     % Start of a recording (0 = NO, 1 = YES)
-const.checkTrial = 0;                   % Print trial conditions (0 = NO, 1 = YES)
-const.mkVideo = 0;                      % Make a video (0 = NO, 1 = YES)
+const.expStart = 0;                     % Start of a recording (0 = NO, 1 = YES)
+const.checkTrial = 1;                   % Print trial conditions (0 = NO, 1 = YES)
+const.mkVideo = 1;                      % Make a video (0 = NO, 1 = YES)
  
 % External controls
-const.tracker = 1;                      % run with eye tracker (0 = NO, 1 = YES)
+const.tracker = 0;                      % run with eye tracker (0 = NO, 1 = YES)
 const.comp = 1;                         % run in which computer (1 = MRI; 2 = Diplay++)
 const.scanner = 0;                      % run in MRI scanner (0 = NO, 1 = YES)
-const.scannerTest = 1;                  % fake scanner trigger (0 = NO, 1 = YES)
+const.scannerTest = 0;                  % fake scanner trigger (0 = NO, 1 = YES)
 const.training = 0;                     % training session (0 = NO, 1 = YES)
 
 % Desired screen setting

@@ -127,6 +127,8 @@ for t = 1:const.nb_trials
             drawBullsEye(scr, const, fix_coords(1), fix_coords(2), 0);
         elseif task == 4
             % eyes closed no dot
+        elseif task == 5 
+            % eyes open no stimulus no dot
         end
 
         % Play sound

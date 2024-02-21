@@ -23,8 +23,9 @@ function const = constConfig(scr, const, aud)
 % Colors
 const.white = [255, 255, 255];
 const.gray = [128 128 128];
+const.black = [0,0,0];
 const.fixation_color = const.white;
-const.background_color = const.gray; 
+const.background_color = const.black; 
 
 % Time parameters
 const.TR_sec = 1.2;                                                                 % MRI time repetition in seconds
@@ -42,16 +43,17 @@ const.trial_dur_frm = round(const.trial_dur_sec / scr.frame_duration);          
 % Stim parameters
 [const.ppd] = vaDeg2pix(1, scr);                                                    % one pixel per dva
 const.dpp = 1/const.ppd;                                                            % degrees per pixel
-const.window_sizeVal = 14;                                                          % side of the display window
+const.window_sizeVal = 18;                                                          % side of the display window
 
 % tasks
 const.task_txt = {'inter-trial interval', ...
                   'eyes open', ...
                   'eyes blink', ...
+                  'eyes open no dot', ...
                   'eyes close'};
 
 % Fixation position
-const.triangle_size = 14;                                                           % position triangle size in dva
+const.triangle_size = 18;                                                           % position triangle size in dva
 const.triangle_size_px = vaDeg2pix(const.triangle_size, scr);                       % position triangle size in pixels
 
 const.fix_middle_coords = [scr.x_mid, ...
@@ -96,20 +98,27 @@ const.nb_repeat_eyes_blink = 2;
 const.nb_trials_eyes_blink = const.fix_steps * const.nb_repeat_eyes_blink;
 const.TRs_eyes_blink = const.nb_trials_eyes_blink * const.trial_dur_TR;
 
+const.nb_repeat_eyes_open_no = 2;
+const.nb_trials_eyes_open_no = const.fix_steps * const.nb_repeat_eyes_open_no;
+const.TRs_eyes_open_no = const.nb_trials_eyes_open_no * const.trial_dur_TR;
+
 const.nb_repeat_eyes_close = 2;
 const.nb_trials_eyes_close = const.fix_steps * const.nb_repeat_eyes_close;
 const.TRs_eyes_close = const.nb_trials_eyes_close * const.trial_dur_TR;
 
-const.nb_trials_iti = 4; % 3 iti and final one
+const.nb_trials_iti = 5; % 4 iti and final one
 const.TRs_iti = const.nb_trials_iti * const.iti_dur_TR;
 
 const.nb_trials = const.nb_trials_eyes_open + const.nb_trials_eyes_blink + ...
-    const.nb_trials_eyes_close + const.nb_trials_iti; 
+                  const.nb_trials_eyes_open_no + const.nb_trials_eyes_close + ...
+                  const.nb_trials_iti;
+
 
 % define total TR numbers and scan duration
 if const.scanner
     const.TRs_total = const.TRs_eyes_open + const.TRs_eyes_blink + ...
-                            const.TRs_eyes_close + const.TRs_iti;
+                            const.TRs_eyes_open_no + const.TRs_eyes_close + ...
+                            const.TRs_iti;
     fprintf(1,'\n\tScanner parameters: %1.0f TRs of %1.2f seconds for a total of %s\n',...
         const.TRs_total, const.TR_sec, ...
         datestr(seconds((const.TRs_total * const.TR_sec...
