@@ -44,10 +44,10 @@ if const.scanner == 1 && ~const.scannerTest
     
     % NI board acquisition settings
     warning off;
-    daqreset; % replace daq.reset;
-    my_key.ni_devices = daqlist; % replace daq.getDevices
-    my_key.ni_session1 = daq(my_key.ni_devices(1).Vendor.ID); % replace daq.createSession
-    my_key.ni_session2 = daq(my_key.ni_devices(2).Vendor.ID); % replace daq.createSession
+    daq.reset;
+    my_key.ni_devices = daq.getDevices;
+    my_key.ni_session1 = daq.createSession(my_key.ni_devices(1).Vendor.ID);
+    my_key.ni_session2 = daq.createSession(my_key.ni_devices(2).Vendor.ID);
     my_key.ni_device_ID1 = 'Dev1';
     my_key.ni_device_ID2 = 'Dev2';
     my_key.ni_measurement_type = 'InputOnly';
@@ -71,7 +71,7 @@ if const.scanner == 1 && ~const.scannerTest
     % MRI trigger settings
     fprintf(1,'\n\n\tDon''t forget to put MRI trigger in "Toggle" mode\n');
     my_key.port_mri_bands = 'port1/line0';
-    my_key.idx_mri_bands = 3;
+    my_key.idx_mri_bands = 7;
     
     if ~isempty(my_key.port_mri_bands)
         my_key.channel_mri_bands = my_key.ni_session1.addDigitalChannel(my_key.ni_device_ID1,my_key.port_mri_bands,my_key.ni_measurement_type); 
