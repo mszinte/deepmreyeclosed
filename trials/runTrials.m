@@ -166,7 +166,7 @@ for t = 1:const.nb_trials
             end
         end
         
-        if nbf == trial_offset_nbf
+        if nbf == 1
             trial_on = vbl;
         end
     end
