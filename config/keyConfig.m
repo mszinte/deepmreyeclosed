@@ -17,18 +17,23 @@ function my_key = keyConfig(const)
 KbName('UnifyKeyNames');
 
 my_key.mri_trVal = 't';         % mri trigger letter
-my_key.left1Val = 'r';          % left button 1 - not used
-my_key.left2Val = 'f';          % left button 2 - not used
-my_key.left3Val = 'v';          % left button 3 - not used
-my_key.right1Val = 'i';         % right button 1 - pass instructions
-my_key.right2Val = 'j';         % right button 2 - not used
-my_key.right3Val = 'n';         % right button 3 - not used
+my_key.left1Val = 'r';          % left button 1 - motion up left
+my_key.left2Val = 'f';          % left button 2 - conf 1st interval
+my_key.left3Val = 'v';          % left button 3 - motion down left
+my_key.right1Val = 'i';         % right button 1 - motion up right
+my_key.right2Val = 'j';         % right button 2 - conf 2nd interval
+my_key.right3Val = 'n';         % right button 3 - motion down right
 my_key.escapeVal = 'escape';    % escape button
 my_key.spaceVal = 'space';      % space button
 
 my_key.mri_tr = KbName(my_key.mri_trVal);
-my_key.escape = KbName(my_key.escapeVal);
+my_key.left1 = KbName(my_key.left1Val);
+my_key.left2 = KbName(my_key.left2Val);
+my_key.left3 = KbName(my_key.left3Val);
 my_key.right1 = KbName(my_key.right1Val);
+my_key.right2 = KbName(my_key.right2Val);
+my_key.right3 = KbName(my_key.right3Val);
+my_key.escape = KbName(my_key.escapeVal);
 my_key.space = KbName(my_key.spaceVal);
 
 my_key.keyboard_idx = GetKeyboardIndices;
@@ -54,16 +59,16 @@ if const.scanner == 1 && ~const.scannerTest
     my_key.button_press_val = 1;
     
     % button press settings
-    my_key.port_button_left1 = 'port0/line0'; my_key.idx_button_left1 = 1;
-    my_key.port_button_left2 = 'port0/line1'; my_key.idx_button_left2 = 2;
-    my_key.port_button_left3 = 'port0/line2'; my_key.idx_button_left3 = 3;    
+    my_key.port_button_left1 = 'port2/line1'; my_key.idx_button_left1 = 1;
+    my_key.port_button_left2 = 'port2/line3'; my_key.idx_button_left2 = 2;
+    my_key.port_button_left3 = 'port2/line5'; my_key.idx_button_left3 = 3;    
     if ~isempty(my_key.port_button_left1); my_key.channel_button_left1 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_left1,my_key.ni_measurement_type); end
     if ~isempty(my_key.port_button_left2); my_key.channel_button_left2 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_left2,my_key.ni_measurement_type); end
     if ~isempty(my_key.port_button_left3); my_key.channel_button_left3 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_left3,my_key.ni_measurement_type); end
     
-    my_key.port_button_right1 = 'port0/line3'; my_key.idx_button_right1 = 4;
-    my_key.port_button_right2 = 'port0/line4'; my_key.idx_button_right2 = 5;
-    my_key.port_button_right3 = 'port0/line5'; my_key.idx_button_right3 = 6;   
+    my_key.port_button_right1 = 'port2/line0'; my_key.idx_button_right1 = 4;
+    my_key.port_button_right2 = 'port2/line2'; my_key.idx_button_right2 = 5;
+    my_key.port_button_right3 = 'port2/line4'; my_key.idx_button_right3 = 6;   
     if ~isempty(my_key.port_button_right1); my_key.channel_button_right1 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_right1,my_key.ni_measurement_type); end
     if ~isempty(my_key.port_button_right2); my_key.channel_button_right2 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_right2,my_key.ni_measurement_type); end
     if ~isempty(my_key.port_button_right3); my_key.channel_button_right3 = my_key.ni_session2.addDigitalChannel(my_key.ni_device_ID2,my_key.port_button_right3,my_key.ni_measurement_type); end
