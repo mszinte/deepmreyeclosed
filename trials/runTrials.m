@@ -96,6 +96,7 @@ for t = 1:const.nb_trials
                         overDone(const, my_key);
                     elseif keyCode(my_key.mri_tr)
                         first_trigger = 1;
+                        mri_band_val = -8;
                     end
                 end
             end
