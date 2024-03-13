@@ -18,7 +18,7 @@ function aud = audioConfig
 % Master
 aud.master_mode = 1+8;       	% mode of operation (1+8 = ????)
 aud.master_reqlatclass = 1;     % try to get the lowest latency
-aud.master_rate = 48000;        % master rate in samples per second (Hz);
+aud.master_rate = 44100;        % master rate in samples per second (Hz);
 aud.master_nChannels = 2;       % number of audio channels to use (2 = stereo)
 
 aud.master_rep = 0;             % repetition of the sound data
