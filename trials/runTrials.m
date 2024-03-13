@@ -49,12 +49,12 @@ for t = 1:const.nb_trials
     
     % Load the sound
     if task == 1
-        PsychPortAudio('FillBuffer', aud.stim_handle, const.iti_tones);
+        PsychPortAudio('FillBuffer',aud.stim_handle, const.iti_tones);
         if const.mkVideo
             expDes.vid_audio_mat = [expDes.vid_audio_mat, const.iti_tones];
         end
     else
-        PsychPortAudio('FillBuffer' ,aud.stim_handle, const.trial_tones);
+        PsychPortAudio('FillBuffer', aud.stim_handle, const.trial_tones);
         if const.mkVideo
             expDes.vid_audio_mat = [expDes.vid_audio_mat, const.trial_tones];
         end
@@ -134,8 +134,8 @@ for t = 1:const.nb_trials
 
         % Play sound
         if ~play_sound
-            PsychPortAudio('Start', aud.stim_handle, aud.slave_rep, ...
-                aud.slave_when, aud.slave_waitforstart);
+            PsychPortAudio('Start', aud.stim_handle, aud.slave_rep, aud.slave_when, aud.slave_waitforstart);
+            
             play_sound = 1;
         end
 

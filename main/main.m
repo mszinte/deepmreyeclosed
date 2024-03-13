@@ -44,7 +44,7 @@ priorityLevel = MaxPriority(scr.main);Priority(priorityLevel);
 
 % Open sound pointer
 aud.master_main = PsychPortAudio('Open', [], aud.master_mode,...
-    aud.master_reqlatclass, [], aud.master_nChannels);
+    aud.master_reqlatclass, aud.master_rate ,aud.master_nChannels);
 PsychPortAudio('Start', aud.master_main, aud.master_rep, ...
     aud.master_when, aud.master_waitforstart);
 PsychPortAudio('Volume', aud.master_main, aud.master_globalVol);

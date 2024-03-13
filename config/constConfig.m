@@ -113,6 +113,30 @@ const.nb_trials = const.nb_trials_eyes_open + const.nb_trials_eyes_blink + ...
                   const.nb_trials_eyes_open_no + const.nb_trials_eyes_close + ...
                   const.nb_trials_iti;
 
+if const.audio_testing == 1
+    const.nb_repeat_eyes_open = 1;
+    const.nb_trials_eyes_open = const.fix_steps * const.nb_repeat_eyes_open;
+    const.TRs_eyes_open = const.nb_trials_eyes_open * const.trial_dur_TR;
+    
+    const.nb_repeat_eyes_blink = 1;
+    const.nb_trials_eyes_blink = const.fix_steps * const.nb_repeat_eyes_blink;
+    const.TRs_eyes_blink = const.nb_trials_eyes_blink * const.trial_dur_TR;
+    
+    const.nb_repeat_eyes_open_no = 1;
+    const.nb_trials_eyes_open_no = const.fix_steps * const.nb_repeat_eyes_open_no;
+    const.TRs_eyes_open_no = const.nb_trials_eyes_open_no * const.trial_dur_TR;
+    
+    const.nb_repeat_eyes_close = 1;
+    const.nb_trials_eyes_close = const.fix_steps * const.nb_repeat_eyes_close;
+    const.TRs_eyes_close = const.nb_trials_eyes_close * const.trial_dur_TR;
+    
+    const.nb_trials_iti = 5; % 4 iti and final one
+    const.TRs_iti = const.nb_trials_iti * const.iti_dur_TR;
+    
+    const.nb_trials = const.nb_trials_eyes_open + const.nb_trials_eyes_blink + ...
+                      const.nb_trials_eyes_open_no + const.nb_trials_eyes_close + ...
+                      const.nb_trials_iti;
+end
 
 % define total TR numbers and scan duration
 if const.scanner
