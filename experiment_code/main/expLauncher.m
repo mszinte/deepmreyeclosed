@@ -19,10 +19,10 @@ const.mkVideo = 0;                      % Make a video (0 = NO, 1 = YES)
  
 % External controls
 const.tracker = 1;                      % run with eye tracker (0 = NO, 1 = YES)
-const.comp = 1;                         % run in which computer (1 = MRI; 2 = Diplay++)
-const.scanner = 1;                      % run in MRI scanner (0 = NO, 1 = YES)
+const.comp = 2;                         % run in which computer (1 = MRI; 2 = Diplay++)
+const.scanner = 0;                      % run in MRI scanner (0 = NO, 1 = YES)
 const.scannerTest = 0;                  % fake scanner trigger (0 = NO, 1 = YES)
-const.training = 0;                     % training session (0 = NO, 1 = YES)
+const.training = 1;                     % training session (0 = NO, 1 = YES)
 
 
 % Desired screen setting
